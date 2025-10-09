@@ -1,0 +1,17 @@
+#mainAccordionDiv .MuiAccordionSummary-content {
+  margin: 0px;
+}
+#mainAccordionDiv .MuiButtonBase-root {
+  height: 20px !important;
+  padding: 0 10px;
+}
+#mainAccordionDiv .MuiTypography-root {
+  font-size: 15px;
+}
+#mainAccordionDiv button:hover {
+  background-color: var(---secondaryColor);
+  transition: all 0.3s;
+}
+#mainAccordionDiv .MuiAccordionDetails-root {
+  padding: 0;
+}

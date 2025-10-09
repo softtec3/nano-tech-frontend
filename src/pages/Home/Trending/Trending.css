@@ -1,0 +1,27 @@
+#trending {
+  display: flex;
+  gap: 20px;
+}
+.trendingProducts {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+  #trending {
+    flex-direction: column;
+  }
+  .trendingProducts {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .trendingProducts {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0;
+    row-gap: 25px;
+  }
+}

@@ -1,0 +1,95 @@
+.checkout-form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  margin: 20px auto;
+}
+
+.checkout-form h3 {
+  margin-top: 20px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: var(---primaryBorder);
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid gainsboro;
+}
+input[type="radio"] {
+  display: block;
+  width: auto;
+}
+.order-summary {
+  background: #fafafa;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.order-summary p {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.total {
+  font-weight: bold;
+}
+.btnRadius {
+  border-radius: var(---primaryBorderRadius);
+}
+.flexCheckout {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+.flexCheckout button {
+  width: 100%;
+}
+
+.stepContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 80vh;
+}
+.detailsContainer table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+.detailsContainer table th,
+td {
+  border: 1px solid gainsboro;
+  padding: 5px;
+}
+.btn {
+  padding: 10px;
+  border: none;
+  background-color: #228b22;
+  border-radius: var(---primaryBorderRadius);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 16px;
+}

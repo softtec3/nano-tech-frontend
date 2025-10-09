@@ -1,0 +1,25 @@
+#filterCheckbox {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: var(---primaryShadow);
+}
+#filterCheckbox h6 {
+  padding: 10px;
+  background-color: #fbfbfb;
+  border-bottom: 1px solid gray;
+}
+#filterCheckbox .checkboxContainer {
+  padding: 10px;
+}
+#filterCheckbox .checkboxContainer li label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+}
+#filterCheckbox .checkboxContainer li input {
+  width: 17px;
+  height: 17px;
+}

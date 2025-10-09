@@ -1,0 +1,21 @@
+#productSectionOne {
+  padding: 10px;
+  background-color: #d3ecd477;
+}
+.productsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+  .productsContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (max-width: 600px) {
+  .productsContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

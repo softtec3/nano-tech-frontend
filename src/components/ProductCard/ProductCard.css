@@ -1,0 +1,136 @@
+#productCard {
+  height: 425px;
+  border-radius: 5px;
+  background-color: white;
+  transition: all 0.3s;
+  position: relative;
+}
+.discountContainer {
+  position: absolute;
+  top: -5px;
+  left: 10px;
+  width: 50px;
+}
+.discountContainer img {
+  width: 100%;
+  height: auto;
+}
+.discountContainer span {
+  position: absolute;
+  left: 0;
+  color: white;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px;
+}
+#productCard:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.16);
+}
+#productCard p {
+  margin: 0;
+}
+.proCardUpper {
+  height: 70%;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+}
+.proCardBottom {
+  height: 30%;
+  background-color: #fffff6;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.proCardUpper img {
+  width: auto;
+  height: 210px;
+  margin: 0 auto;
+}
+.proDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.proDescription span {
+  font-size: 14px;
+  font-weight: 500;
+}
+.proDescription span:nth-child(1) {
+  color: gray;
+}
+.proDescription span:nth-child(2) {
+  font-size: 14px;
+}
+.proPrice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.disMrp {
+  color: rgb(213, 6, 6);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+.disCount {
+  font-size: 12px;
+}
+.proLocation {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-bottom: 5px !important;
+}
+.proAction {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid gainsboro;
+}
+.proAction span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid gainsboro;
+  border-radius: 50%;
+  font-size: 20px;
+  background-color: white;
+}
+.proAction span:hover {
+  box-shadow: 0px 0px 5px var(---secondaryColor);
+  cursor: pointer;
+  border-color: var(---secondaryColor);
+}
+.proBtn {
+  padding: 0px 20px;
+  border-radius: 5px;
+  background-color: var(---primaryColor);
+  border: none;
+  outline: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+  height: 30px;
+  transition: all 0.3s;
+}
+.proBtn:hover {
+  background-color: var(---secondaryColor);
+  color: black;
+}
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 600px) {
+}

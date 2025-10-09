@@ -1,0 +1,62 @@
+#whyChooseUs {
+  background-color: var(---secondaryColor);
+  border: 1px solid gainsboro;
+  padding: 10px;
+  border-radius: 5px;
+}
+.chooseIcon {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.chooseIcon span {
+  font-size: 14px;
+}
+/* modal */
+#modal {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modalContent {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 30%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+.cross {
+  cursor: pointer;
+}
+#whyChooseUs::-webkit-scrollbar {
+  width: 0px;
+}
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+  .modalContent {
+    background-color: white;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .modalContent {
+    background-color: white;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  .chooseIcon {
+    min-width: 220px;
+  }
+}

@@ -1,0 +1,6 @@
+.bothNavbar {
+  background-color: var(---secondaryColor);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

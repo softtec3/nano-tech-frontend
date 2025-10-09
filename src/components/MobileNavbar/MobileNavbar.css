@@ -1,0 +1,204 @@
+#mobileNav {
+  background-color: var(---secondaryColor);
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  display: none;
+  z-index: 50;
+}
+/* Mobile category */
+.mobileCategory {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -10;
+  background-color: white;
+  height: 93%;
+  width: 100%;
+  overflow: auto;
+  padding-bottom: 50px;
+}
+#mobileNav .mobileCategory .categoriesList {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: white;
+}
+#mobileNav .mobileCategory .categoriesList .rightArrowIcon {
+  display: none;
+}
+#mobileNav .mobileCategory .categoriesList .innerCat {
+  flex-direction: column;
+  text-align: center;
+  height: auto;
+}
+#mobileNav .mobileCategory .categoriesList a {
+  flex-direction: column;
+  justify-content: start;
+}
+#mobileNav .mobileCategory .categories {
+  min-width: 35%;
+  max-width: 35%;
+  height: 100%;
+  box-shadow: none;
+  display: block;
+}
+#mobileNav .mobileCategory .categories .subCategories {
+  min-width: 250px;
+  box-shadow: none;
+  border-left: none;
+  top: 45px;
+}
+#mobileNav .mobileCategory .closeMobileCategory {
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 50;
+}
+#mobileNav .mobileCategory .categories .subCategories a {
+  justify-content: start;
+  align-items: start;
+}
+/* Mobile category */
+#mobileNav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+#mobileNav a:hover {
+  background-color: var(---primaryColor);
+  color: white;
+}
+/* Product Page Top Navigation */
+.proPageTopNav {
+  background-color: var(---secondaryColor);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+.proPTVRight {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#mobileNav .proPageTopNav a {
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+#mobileNav .proPageTopNav a:hover {
+  border-color: var(---primaryColor);
+}
+/* Product Page Top Navigation */
+/* Account Info */
+/* #mobileNav .accountInfo {
+  width: 100%;
+  height: 90%;
+  background-color: whitesmoke;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+}
+#mobileNav .accountInfo .accountInfoTopNav {
+  display: flex;
+  align-items: center;
+  background-color: var(---secondaryColor);
+  justify-content: space-between;
+  padding-left: 5px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+#mobileNav .accountInfo .accountInfoTopNav div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+#mobileNav .accountInfo .accountInfoDetails {
+  margin-top: 20px;
+  background-color: white;
+  padding-bottom: 50px;
+}
+#mobileNav .accountInfo .accountInfoDetails .logRegBtn {
+  font-size: 20px;
+  background-color: var(---secondaryColor);
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+#mobileNav .accountInfo .accountInfoDetails .logRegBtn:hover {
+  background-color: var(---primaryColor);
+}
+#mobileNav .accountInfo .accountInfoDetails .accountInfoNavigation {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+}
+#mobileNav .accountInfo .accountInfoDetails .accountInfoNavigation a {
+  width: 100%;
+  align-items: start;
+  font-size: 15px;
+  border-bottom: 1px solid gainsboro;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+  font-weight: 500;
+}
+#mobileNav .accountInfo .accountInfoDetails .accountInfoNavigation a:hover {
+  background-color: var(---secondaryColor);
+  color: black;
+}
+#mobileNav .accountInfo .accountInfoDetails .accountInfoNavigation img {
+  width: 20px;
+  height: 20px;
+}
+#mobileNav .accountInfo .accountInfoDetails .accountDetailsFooter {
+  padding: 10px;
+}
+#mobileNav .accountInfo .accountDetailsFooter .socialMedias a {
+  height: auto;
+  width: auto;
+} */
+/* Account Info */
+.mobileCart {
+  position: relative;
+}
+.mobileCart .cartCount {
+  position: absolute;
+  right: 20px;
+}
+.mobileCart .cartCountD {
+  position: absolute;
+  right: 0px;
+  top: -5px;
+}
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+  #mobileNav {
+    display: grid;
+  }
+}
+@media only screen and (max-width: 600px) {
+}

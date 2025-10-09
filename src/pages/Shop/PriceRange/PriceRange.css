@@ -1,0 +1,36 @@
+.rangeContainer {
+  padding: 0 10px;
+  background-color: white;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+#priceRange h6 {
+  padding: 10px;
+  background-color: var(---secondaryColor);
+  border-bottom: 1px solid gray;
+}
+#priceRange .minMaxContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+#priceRange .minMaxContainer span {
+  font-size: 14px;
+}
+#priceRange .minMaxContainer .minMaxClear {
+  font-size: 12px;
+  cursor: pointer;
+  color: var(---primaryColor);
+  font-weight: bold;
+}
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 600px) {
+  .rangeContainer {
+    overflow: hidden;
+  }
+}

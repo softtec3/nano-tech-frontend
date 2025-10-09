@@ -1,0 +1,62 @@
+#promotionBannerTwo {
+  display: grid;
+  gap: 20px;
+  grid-template-areas:
+    "pb1 pb2 pb2 pb3"
+    "pb4 pb2 pb2 pb5";
+}
+.pb2 {
+  width: 100%;
+  height: 100%;
+}
+#promotionBannerTwo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+#promotionBannerTwo img:hover {
+  transform: scale(1.03);
+}
+.pb1,
+.pb3,
+.pb4,
+.pb5 {
+  height: 310px;
+  width: 100%;
+}
+.pb1 {
+  grid-area: pb1;
+}
+.pb2 {
+  grid-area: pb2;
+}
+.pb3 {
+  grid-area: pb3;
+}
+.pb4 {
+  grid-area: pb4;
+}
+.pb5 {
+  grid-area: pb5;
+}
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+  #promotionBannerTwo {
+    gap: 10px;
+    grid-template-areas:
+      "pb1 pb1 pb3 pb3"
+      "pb2 pb2 pb2 pb2"
+      "pb4 pb4 pb5 pb5";
+  }
+  .pb1,
+  .pb3,
+  .pb4,
+  .pb5 {
+    height: 250px;
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 600px) {
+}

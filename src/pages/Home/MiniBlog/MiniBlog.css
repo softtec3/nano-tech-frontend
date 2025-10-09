@@ -1,0 +1,15 @@
+#miniBlog {
+  padding: 10px;
+  background-color: rgb(238, 235, 235);
+}
+#miniBlog p {
+  font-size: 14px;
+  text-align: justify;
+}
+
+.infoContent {
+  margin-bottom: 20px;
+}
+.infoContent h5 {
+  margin-bottom: 10px;
+}

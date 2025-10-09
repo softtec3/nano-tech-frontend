@@ -1,0 +1,25 @@
+.pidTitle {
+  margin: 10px 0;
+}
+.pinDetailsContainer {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+}
+.pinDetail {
+  margin-bottom: 20px;
+}
+.pinDetail h6 {
+  margin-bottom: 10px;
+  font-size: 19px;
+}
+.pinDetail table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.pinDetail table td {
+  width: 50%;
+}
+.pinDetail table td {
+  border: none;
+}

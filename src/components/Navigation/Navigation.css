@@ -1,0 +1,29 @@
+#productDetailsNav {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#productDetailsNav a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(---primaryColor);
+}
+#productDetailsNav p {
+  font-size: 15px;
+  margin: 0;
+}
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 600px) {
+  #productDetailsNav {
+    display: none;
+  }
+}

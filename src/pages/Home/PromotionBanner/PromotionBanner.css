@@ -1,0 +1,31 @@
+#promotionBanner {
+  width: 100%;
+  padding: 20px 0;
+  /* height: 200px; */
+}
+.promoBannerImages {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.promoBannerImages img {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.promoBannerImages img:hover {
+  transform: scale(1.01);
+}
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+  .promoBannerImages {
+    flex-direction: column;
+    overflow: hidden;
+    padding: 10px;
+  }
+}
+@media only screen and (max-width: 600px) {
+}

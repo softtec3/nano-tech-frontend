@@ -1,0 +1,24 @@
+.emptyCartPlaceholder {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  gap: 10px;
+}
+.emptyCartPlaceholderMain {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  border-radius: 5px;
+  gap: 10px;
+  padding: 50px;
+  text-align: center;
+}
+.emptyCartPlaceholderMain a {
+  background-color: var(---primaryColor);
+  padding: 10px 20px;
+  color: white;
+  border-radius: 5px;
+  font-weight: 500;
+}

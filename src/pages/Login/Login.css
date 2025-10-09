@@ -1,0 +1,63 @@
+#login {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#login .loginContainer {
+  width: 50%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px 50px;
+}
+#login .loginContainer h4 {
+  text-align: center;
+}
+#login .loginContainer form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+#login .loginContainer form input,
+#login .loginContainer form button {
+  height: 50px;
+  padding: 10px;
+  border: 1px solid gainsboro;
+  outline: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+#login .loginContainer form a {
+  text-align: right;
+  color: var(---primaryColor);
+  text-decoration: underline;
+}
+#login .loginContainer form button {
+  cursor: pointer;
+  border: none;
+  background-color: var(---primaryColor);
+  color: white;
+  font-weight: bold;
+}
+#login .loginContainer p {
+  margin-top: 20px;
+  text-align: center;
+}
+#login .loginContainer p a {
+  text-align: right;
+  color: var(---primaryColor);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/* Responsive part */
+@media only screen and (max-width: 1200px) {
+  #login .loginContainer {
+    width: 100%;
+    padding: 20px;
+  }
+}
+@media only screen and (max-width: 600px) {
+}

@@ -1,0 +1,69 @@
+#mobileCategories {
+  background-color: white;
+}
+#mobileCategories .parent {
+  position: relative;
+}
+#mobileCategories .parent .child {
+  position: absolute;
+  width: 35%;
+  height: auto;
+  padding: 0px;
+  top: 0;
+  display: none;
+  left: 200px;
+  z-index: 3;
+}
+#mobileCategories .parent .child a {
+  background-color: var(---secondaryColor);
+  margin-bottom: 5px;
+  border-radius: 5px;
+  color: black;
+  transition: all 0.3s;
+}
+#mobileCategories .parent .child a:hover {
+  background-color: var(---primaryColor);
+  color: white;
+}
+#mobileCategories .parent:hover .child {
+  display: block;
+}
+#mobileCategories .mobileCategoryList div {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  height: auto;
+}
+#mobileCategories .mobileCategoryList .mcInnerCat {
+  cursor: pointer;
+  width: 150px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 13px;
+  background-color: var(---secondaryColor);
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: all 0.3s;
+  padding: 0px 10px;
+}
+#mobileCategories .mobileCategoryList .mcInnerCat:hover {
+  background-color: var(---primaryColor);
+  color: white;
+}
+#mobileCategories .mobileCategoryList .mcInnerCat img {
+  height: 25px;
+  width: 25px;
+}
+#mobileCategories h5 {
+  padding: 10px;
+}
+#mobileCategories .mcLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
