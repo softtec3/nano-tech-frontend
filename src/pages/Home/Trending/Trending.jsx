@@ -101,10 +101,10 @@ const products = [
     bn_discount_price: "১৬২০০",
   },
 ];
-const Trending = () => {
+const Trending = ({ categories }) => {
   return (
     <section id="trending">
-      <Categories />
+      <Categories categories={categories} />
       {/* all trending products */}
       <div className="trendingProducts">
         {products?.map((product) => (

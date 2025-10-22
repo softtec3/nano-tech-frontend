@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa6";
 import { FaSortAmountUp } from "react-icons/fa";
 import { BsCart } from "react-icons/bs";
-import { Link, useParams } from "react-router";
+import { Link } from "react-router";
 import useLang from "../../hooks/useLang";
 import useCart from "../../hooks/useCart";
 // these data will come from database
@@ -222,8 +222,7 @@ const Shop = () => {
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [isSearchShow, setIsSearchShow] = useState(false);
   // category id
-  const { categoryId } = useParams();
-  console.log(categoryId);
+
   return (
     <Container>
       <div id="shop">

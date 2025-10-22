@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import Container from "../../components/Container/Container";
 import HomeCategory from "./HomeCategory/HomeCategory";
@@ -12,19 +12,39 @@ import ProductsSectionTwo from "./ProductSectionTwo/ProductSectionTwo";
 import PromotionBannerThree from "./PromotionBannerThree/PromotionBannerThree";
 import ProductsSectionThree from "./ProductSectionThree/ProductSectionThree";
 import MiniBlog from "./MiniBlog/MiniBlog";
+import useLang from "../../hooks/useLang";
 const Home = () => {
+  const { lang } = useLang();
   // This is home page
+  const [categories, setCategories] = useState([]);
+  // fetch categories from database
+  useEffect(() => {
+    try {
+      fetch(`${import.meta.env.VITE_API}/all_categories.php?lang=${lang}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success) {
+            setCategories(data?.data);
+          } else {
+            console.log(data?.message);
+          }
+        })
+        .catch((error) => console.log(error.message));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [lang]);
   return (
     <div>
       <Container>
         {/* Home category */}
-        <HomeCategory />
+        <HomeCategory categories={categories} />
         {/* Banner section */}
         <Banner />
         {/* Why Choose us section */}
         <WhyChooseUs />
         {/* Trending Section */}
-        <Trending />
+        <Trending categories={categories} />
       </Container>
       {/* Promotion Banner */}
       <PromotionBanner />
