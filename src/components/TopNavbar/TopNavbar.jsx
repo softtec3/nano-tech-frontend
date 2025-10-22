@@ -41,8 +41,22 @@ const TopNavbar = () => {
           <Link to={"#"}>
             {isBangla ? "বাংলা" : "English"}
             <ul style={{ display: isShow ? "block" : "none" }}>
-              <li onClick={() => setLang("bn")}>বাংলা</li>
-              <li onClick={() => setLang("en")}>English</li>
+              <li
+                onClick={() => {
+                  setLang("bn");
+                  localStorage.setItem("nano-lang", "bn");
+                }}
+              >
+                বাংলা
+              </li>
+              <li
+                onClick={() => {
+                  setLang("en");
+                  localStorage.setItem("nano-lang", "en");
+                }}
+              >
+                English
+              </li>
             </ul>
           </Link>
         </li>
