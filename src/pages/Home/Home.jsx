@@ -13,13 +13,19 @@ import PromotionBannerThree from "./PromotionBannerThree/PromotionBannerThree";
 import ProductsSectionThree from "./ProductSectionThree/ProductSectionThree";
 import MiniBlog from "./MiniBlog/MiniBlog";
 import useLang from "../../hooks/useLang";
+import Loader from "../../components/Loader/Loader";
+import useLoader from "../../hooks/useLoader";
 const Home = () => {
   const { lang } = useLang();
+  const { setIsLoading } = useLoader();
   // This is home page
+  // all categories
   const [categories, setCategories] = useState([]);
+  // all products
   // fetch categories from database
   useEffect(() => {
     try {
+      setIsLoading(true);
       fetch(`${import.meta.env.VITE_API}/all_categories.php?lang=${lang}`)
         .then((res) => res.json())
         .then((data) => {
@@ -32,10 +38,14 @@ const Home = () => {
         .catch((error) => console.log(error.message));
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoading(false);
     }
-  }, [lang]);
+  }, [lang, setIsLoading]);
   return (
     <div>
+      {/* Loader */}
+      <Loader />
       <Container>
         {/* Home category */}
         <HomeCategory categories={categories} />

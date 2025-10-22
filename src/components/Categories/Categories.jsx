@@ -3,14 +3,17 @@ import "./Categories.css";
 import useLang from "../../hooks/useLang";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router";
+import useLoader from "../../hooks/useLoader";
 const Categories = ({ categories }) => {
   const { isBangla, lang } = useLang();
+  const { setIsLoading } = useLoader();
   const [allSubCategories, setAllSubcategories] = useState([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [isSideOpen, setIsSideOpen] = useState(false);
   const [targetUrl, setTargetUrl] = useState("/");
   useEffect(() => {
     try {
+      setIsLoading(true);
       fetch(`${import.meta.env.VITE_API}/all_sub_categories.php?lang=${lang}`)
         .then((res) => res.json())
         .then((data) => {
@@ -23,8 +26,10 @@ const Categories = ({ categories }) => {
         .catch((error) => console.log(error.message));
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoading(false);
     }
-  }, [lang]);
+  }, [lang, setIsLoading]);
   return (
     <div
       onMouseOver={() => setIsSideOpen(true)}
