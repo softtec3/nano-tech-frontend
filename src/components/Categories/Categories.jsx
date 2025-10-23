@@ -40,10 +40,10 @@ const Categories = ({ categories }) => {
       <div className="categoriesList">
         {categories?.map((category) => (
           <Link
-            to={`/shop?category_id=${category?.id}?category=${category?.category_name}`}
+            to={`/shop?category_id=${category?.id}&category=${category?.category_name}`}
             onMouseOver={() => {
               setTargetUrl(
-                `/shop?category_id=${category?.id}?category=${category?.category_name}`
+                `/shop?category_id=${category?.id}&category=${category?.category_name}`
               );
               const filtered = allSubCategories?.filter(
                 (subCat) => subCat.category_id == category.id

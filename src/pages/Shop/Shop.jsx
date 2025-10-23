@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa6";
 import { FaSortAmountUp } from "react-icons/fa";
 import { BsCart } from "react-icons/bs";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import useLang from "../../hooks/useLang";
 import useCart from "../../hooks/useCart";
 import useLoader from "../../hooks/useLoader";
@@ -27,7 +27,13 @@ const Shop = () => {
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [isSearchShow, setIsSearchShow] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
-  // category id
+  const [staticProducts, setStaticProducts] = useState([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const category_id = queryParams.get("category_id");
+  const category = queryParams.get("category");
+  const sub_category_id = queryParams.get("sub_category_id");
+  const sub_category = queryParams.get("sub_category");
   // Fetch all products from database
   useEffect(() => {
     try {
@@ -37,6 +43,7 @@ const Shop = () => {
         .then((data) => {
           if (data?.success) {
             setAllProducts(data?.data);
+            setStaticProducts(data?.data);
           } else {
             console.log(data?.message);
           }
@@ -47,6 +54,54 @@ const Shop = () => {
       setIsLoading(false);
     }
   }, [lang, setIsLoading]);
+  console.log(staticProducts);
+
+  // Products filter by price
+  const handleFilterByPrice = (e) => {
+    const value = e.target.value;
+    const store = [...allProducts];
+    console.log(value);
+    // price high to low
+    if (value === "price_hl") {
+      const htl = store.sort((a, b) => b.current_price - a.current_price);
+      setAllProducts(htl);
+    }
+    //price low to high
+    if (value === "price_lh") {
+      const htl = store.sort((a, b) => a.current_price - b.current_price);
+      setAllProducts(htl);
+    }
+  };
+
+  // navlink
+  const navlink = category
+    ? [
+        { label: `${isBangla ? "হোম" : "Home"}`, href: "/" },
+        {
+          label: `${category}`,
+          href: `/shop?category_id=${category_id}&category=${category}`,
+        },
+      ]
+    : [{ label: `${isBangla ? "হোম" : "Home"}`, href: "/" }];
+  // Default products by category or sub catgory
+  useEffect(() => {
+    // filter by sub category
+    if (sub_category_id) {
+      const filterBySubCat = staticProducts.filter(
+        (pro) => pro.product_sub_category_id == sub_category_id
+      );
+      setAllProducts(filterBySubCat);
+    }
+    // filter by category
+    if (!sub_category_id) {
+      if (category_id) {
+        const filterByCat = staticProducts.filter(
+          (pro) => pro.product_category_id == category_id
+        );
+        setAllProducts(filterByCat);
+      }
+    }
+  }, [sub_category_id, staticProducts, category_id]);
   return (
     <Container>
       <div id="shop">
@@ -203,39 +258,41 @@ const Shop = () => {
         {/* Products */}
         <div className="shopRight">
           {/* Navigation */}
-          <Navigation
-            title={"Split AC"}
-            links={[
-              { label: "Home", href: "/" },
-              { label: "Air Conditioner", href: "/" },
-            ]}
-          />
+          <Navigation title={sub_category && sub_category} links={navlink} />
           {/* Result and Sort dropdown */}
           <div className="resultAndSort">
             <div className="filterResultCount">
               <img src="/icon-wish.webp" alt="result icon" />
               {isBangla ? (
                 <>
-                  <b>১২৮</b> টি পণ্য পাওয়া গিয়েছে Split AC-এ
+                  <b>{allProducts && allProducts?.length}</b> টি পণ্য পাওয়া
+                  গিয়েছে {sub_category || category}
+                  {sub_category || category ? "-এ" : ""}
                 </>
               ) : (
                 <>
-                  <b>128</b> items found in Split AC
+                  <b>{allProducts && allProducts?.length}</b> items found in
+                  Split AC
                 </>
               )}
             </div>
             <div className="sortContainer">
               <div className="filterInputSort">
                 <FaSortAmountUp /> <b>Sort</b>
-                <select className="filterSelect" name="filter" id="">
-                  <option value="best_match">
-                    {isBangla ? "সর্বাধিক প্রাসঙ্গিক" : "Best Match"}
+                <select
+                  onChange={handleFilterByPrice}
+                  className="filterSelect"
+                  name="filter"
+                  id=""
+                >
+                  <option value="" style={{ display: "none" }}>
+                    {isBangla ? "ফিল্টার করুন" : "Sort by"}
                   </option>
                   <option value="price_hl">
-                    {isBangla ? "কম থেকে বেশি মূল্যের" : "Price High to Low"}
+                    {isBangla ? "বেশি থেকে কম মূল্যের" : "Price High to Low"}
                   </option>
                   <option value="price_lh">
-                    {isBangla ? "বেশি থেকে কম মূল্যের" : "Price Low to High"}
+                    {isBangla ? "কম থেকে বেশি মূল্যের" : "Price Low to High"}
                   </option>
                 </select>
               </div>
