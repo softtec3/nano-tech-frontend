@@ -27,6 +27,8 @@ const Shop = () => {
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [isSearchShow, setIsSearchShow] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
+  // all categories
+  const [categories, setCategories] = useState([]);
   const [staticProducts, setStaticProducts] = useState([]);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -55,7 +57,26 @@ const Shop = () => {
     }
   }, [lang, setIsLoading]);
   console.log(staticProducts);
-
+  // fetch categories from database
+  useEffect(() => {
+    try {
+      setIsLoading(true);
+      fetch(`${import.meta.env.VITE_API}/all_categories.php?lang=${lang}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success) {
+            setCategories(data?.data);
+          } else {
+            console.log(data?.message);
+          }
+        })
+        .catch((error) => console.log(error.message));
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [lang, setIsLoading]);
   // Products filter by price
   const handleFilterByPrice = (e) => {
     const value = e.target.value;
@@ -71,6 +92,14 @@ const Shop = () => {
       const htl = store.sort((a, b) => a.current_price - b.current_price);
       setAllProducts(htl);
     }
+  };
+  // handle filter by category
+  const handleFilterByCategory = (id) => {
+    const targetId = parseInt(id);
+    const filtered = staticProducts.filter(
+      (pro) => pro.product_category_id == targetId
+    );
+    setAllProducts(filtered);
   };
 
   // navlink
@@ -102,6 +131,7 @@ const Shop = () => {
       }
     }
   }, [sub_category_id, staticProducts, category_id]);
+
   return (
     <Container>
       <div id="shop">
@@ -178,16 +208,35 @@ const Shop = () => {
                 {
                   label: `${isBangla ? "ন্যানো-টেক" : "Nano-Tech"}`,
                   value: "nano-tech",
-                },
-                {
-                  label: `${isBangla ? "এ সি সি" : "ACC"}`,
-                  value: "acc",
+                  name: "nano-tech",
+                  status: true,
                 },
               ]}
             />
             {/* Price range slider */}
             <PriceRange />
-            <FilterCheckbox
+            <div id="filterCheckbox">
+              <h6>{isBangla ? "ক্যাটেগরি সমূহ" : "Categories"}</h6>
+              <ul className="checkboxContainer">
+                {categories?.map((cat) => (
+                  <li key={cat?.id}>
+                    <label>
+                      <input
+                        type="radio"
+                        name="category"
+                        onChange={(e) => {
+                          handleFilterByCategory(e.target.value);
+                        }}
+                        value={cat?.id}
+                      />
+                      {cat?.category_name}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* <FilterCheckbox
               title={
                 isBangla ? "কুলিং সামর্থ্য (টন)" : "COOLING CAPACITY (TON)"
               }
@@ -252,7 +301,7 @@ const Shop = () => {
                   value: "Twinfold Inverter",
                 },
               ]}
-            />
+            /> */}
           </div>
         </div>
         {/* Products */}
