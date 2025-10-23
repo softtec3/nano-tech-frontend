@@ -14,6 +14,7 @@ const ProductDetailsMain = ({ product, productSpecification }) => {
   const [mobileView, setMobileView] = useState(false);
   const [mainProImage, setMainProImage] = useState("");
   const rawImages = [
+    product?.product_main_img ?? null,
     product?.product_img_one ?? null,
     product?.product_img_two ?? null,
     product?.product_img_three ?? null,

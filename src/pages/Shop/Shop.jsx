@@ -59,7 +59,6 @@ const Shop = () => {
       setIsLoading(false);
     }
   }, [lang, setIsLoading, resetPriceRange]);
-  console.log(allProducts);
   // fetch categories from database
   useEffect(() => {
     try {
