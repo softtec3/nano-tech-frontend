@@ -55,7 +55,7 @@ const SmallProductCard = ({ product = {} }) => {
             </p>
           </div>
           <p className="disCount">
-            {isBangla ? `ডিস্কাউন্ট:` : "Save:"}{" "}
+            {isBangla ? `ডিস্কাউন্ট:` : "Save:"} ৳
             {(product?.regular_price * product?.discount) / 100}
             <span
               style={{

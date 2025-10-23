@@ -46,6 +46,7 @@ const Home = () => {
   // Fetch all products from database
   useEffect(() => {
     try {
+      setIsLoading(true);
       fetch(`${import.meta.env.VITE_API}/all_products_by_lang.php?lang=${lang}`)
         .then((res) => res.json())
         .then((data) => {
@@ -57,8 +58,10 @@ const Home = () => {
         });
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoading(false);
     }
-  }, [lang]);
+  }, [lang, setIsLoading]);
   const trendingSectionProducts = allProducts?.slice(0, 8);
   const productSectionOneProducts = allProducts?.slice(8, 12);
   const productSectionTwoProducts = allProducts?.slice(12);
