@@ -27,6 +27,8 @@ const Shop = () => {
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [isSearchShow, setIsSearchShow] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
+  const [replicaAllProducts, setReplicaAllProducts] = useState([]);
+  const [resetPriceRange, setResetPriceRange] = useState(false);
   // all categories
   const [categories, setCategories] = useState([]);
   const [staticProducts, setStaticProducts] = useState([]);
@@ -46,6 +48,7 @@ const Shop = () => {
           if (data?.success) {
             setAllProducts(data?.data);
             setStaticProducts(data?.data);
+            setReplicaAllProducts(data?.data);
           } else {
             console.log(data?.message);
           }
@@ -55,8 +58,8 @@ const Shop = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [lang, setIsLoading]);
-  console.log(staticProducts);
+  }, [lang, setIsLoading, resetPriceRange]);
+  console.log(allProducts);
   // fetch categories from database
   useEffect(() => {
     try {
@@ -120,6 +123,7 @@ const Shop = () => {
         (pro) => pro.product_sub_category_id == sub_category_id
       );
       setAllProducts(filterBySubCat);
+      setReplicaAllProducts(filterBySubCat);
     }
     // filter by category
     if (!sub_category_id) {
@@ -128,10 +132,19 @@ const Shop = () => {
           (pro) => pro.product_category_id == category_id
         );
         setAllProducts(filterByCat);
+        setReplicaAllProducts(filterByCat);
       }
     }
-  }, [sub_category_id, staticProducts, category_id]);
-
+  }, [sub_category_id, staticProducts, category_id, resetPriceRange]);
+  // function for price range slider
+  const handlePriceRange = (range) => {
+    const minPrice = range[0];
+    const maxPrice = range[1];
+    const finalProducts = replicaAllProducts.filter(
+      (pro) => pro.current_price >= minPrice && pro.current_price <= maxPrice
+    );
+    setAllProducts(finalProducts);
+  };
   return (
     <Container>
       <div id="shop">
@@ -214,7 +227,11 @@ const Shop = () => {
               ]}
             />
             {/* Price range slider */}
-            <PriceRange />
+            <PriceRange
+              handlePriceRange={handlePriceRange}
+              setResetPriceRange={setResetPriceRange}
+            />
+            {/* categories */}
             <div id="filterCheckbox">
               <h6>{isBangla ? "ক্যাটেগরি সমূহ" : "Categories"}</h6>
               <ul className="checkboxContainer">
