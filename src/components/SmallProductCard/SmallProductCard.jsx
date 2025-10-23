@@ -65,7 +65,7 @@ const SmallProductCard = ({ product = {} }) => {
                 marginLeft: "2px",
               }}
             >
-              ({product?.discount}% ছাড়)
+              ({product?.discount}% {isBangla ? "ছাড়" : "OFF"})
             </span>
           </p>
           <p className="proLocation">
