@@ -22,6 +22,7 @@ const Home = () => {
   // all categories
   const [categories, setCategories] = useState([]);
   // all products
+  const [allProducts, setAllProducts] = useState([]);
   // fetch categories from database
   useEffect(() => {
     try {
@@ -42,6 +43,26 @@ const Home = () => {
       setIsLoading(false);
     }
   }, [lang, setIsLoading]);
+  // Fetch all products from database
+  useEffect(() => {
+    try {
+      fetch(`${import.meta.env.VITE_API}/all_products_by_lang.php?lang=${lang}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success) {
+            setAllProducts(data?.data);
+          } else {
+            console.log(data?.message);
+          }
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [lang]);
+  const trendingSectionProducts = allProducts?.slice(0, 8);
+  const productSectionOneProducts = allProducts?.slice(8, 12);
+  const productSectionTwoProducts = allProducts?.slice(12);
+  const productSectionThreeProducts = allProducts;
   return (
     <div>
       {/* Loader */}
@@ -54,13 +75,18 @@ const Home = () => {
         {/* Why Choose us section */}
         <WhyChooseUs />
         {/* Trending Section */}
-        <Trending categories={categories} />
+        <Trending
+          categories={categories}
+          trendingSectionProducts={trendingSectionProducts}
+        />
       </Container>
       {/* Promotion Banner */}
       <PromotionBanner />
       {/* Product section one*/}
       <Container>
-        <ProductsSectionOne />
+        <ProductsSectionOne
+          productSectionOneProducts={productSectionOneProducts}
+        />
       </Container>
       {/* Promotion banner 2 */}
       <Container>
@@ -68,7 +94,9 @@ const Home = () => {
       </Container>
       {/* Product Section 2 */}
       <Container>
-        <ProductsSectionTwo />
+        <ProductsSectionTwo
+          productSectionTwoProducts={productSectionTwoProducts}
+        />
       </Container>
       {/* Promotion Banner Three */}
       <Container>
@@ -76,7 +104,9 @@ const Home = () => {
       </Container>
       {/* Product Section Three */}
       <Container>
-        <ProductsSectionThree />
+        <ProductsSectionThree
+          productSectionThreeProducts={productSectionThreeProducts}
+        />
       </Container>
       {/* Mini blog section */}
       {/* <Container>

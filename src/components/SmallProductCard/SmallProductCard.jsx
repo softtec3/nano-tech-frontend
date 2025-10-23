@@ -17,22 +17,27 @@ const SmallProductCard = ({ product = {} }) => {
     <div id="smallProductCard">
       <div id="productCard">
         <div className="discountContainer">
-          <img src="/discountImage.webp" alt="discount" />
-          <span>
-            <b style={{ fontSize: "14px" }}>10%</b> OFF
-          </span>
+          <img src={"/discountImage.webp"} alt="discount" />
+          {product?.discount && product?.discount > 0 && (
+            <span style={{ textAlign: "center" }}>
+              <b style={{ fontSize: "14px" }}>{product?.discount}</b>% <br />{" "}
+              OFF
+            </span>
+          )}
         </div>
-        <Link to={`/product/${product.id}`}>
+        <Link to={`/product/${product?.id}`}>
           <div className="proCardUpper">
             <img
               className="smallProCardImage"
-              src={product.image}
-              alt={product.name}
+              src={`${import.meta.env.VITE_API_MAIN}/${
+                product?.product_main_img
+              }`}
+              alt={product?.product_name}
             />
             <div className="proDescription">
-              <span className="proModel">{product.model}</span>
+              <span className="proModel">{product?.product_model}</span>
               <span className="proTitle">
-                {isBangla ? product.bn_name : product.name}
+                {product?.product_name.slice(0, 30)}..
               </span>
             </div>
           </div>{" "}
@@ -40,18 +45,18 @@ const SmallProductCard = ({ product = {} }) => {
         <div className="proCardBottom">
           <div className="proPrice">
             <p className="disMrp">
-              {isBangla ? "টাকা" : "MRP"} ৳
-              <span>{isBangla ? product.bn_price : product.price}</span>
+              {isBangla ? "টাকা" : "MRP"} ৳<span>{product?.regular_price}</span>
             </p>
             <p>
               ৳
               <span style={{ fontWeight: "bold" }}>
-                {isBangla ? product.bn_discount_price : product.discountPrice}
+                {product?.current_price}
               </span>
             </p>
           </div>
           <p className="disCount">
-            {isBangla ? `ডিস্কাউন্ট: ৳১৮০০` : "Save: ৳1800"}
+            {isBangla ? `ডিস্কাউন্ট:` : "Save:"}{" "}
+            {(product?.regular_price * product?.discount) / 100}
             <span
               style={{
                 fontWeight: "bold",
@@ -60,11 +65,12 @@ const SmallProductCard = ({ product = {} }) => {
                 marginLeft: "2px",
               }}
             >
-              ({isBangla ? "১০% ছাড়" : "10% OFF"})
+              ({product?.discount}% ছাড়)
             </span>
           </p>
           <p className="proLocation">
-            {isBangla ? "উপলব্ধ: ২০০ পিস" : "Available: 200 Pcs"}
+            {isBangla ? "উপলব্ধ: " : "Available: "}
+            {product?.product_quantity} {isBangla ? "পিস" : "Pcs"}
           </p>{" "}
           <div className="proAction">
             <span
