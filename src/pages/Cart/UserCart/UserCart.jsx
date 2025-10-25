@@ -152,8 +152,13 @@ const UserCart = () => {
               </div>
               <div className="userCartItemBottom">
                 <div className="img-desc">
-                  <img src={item?.image} alt="product Image" />
-                  <p>{isBangla ? item?.bn_name : item?.name}</p>
+                  <img
+                    src={`${import.meta.env.VITE_API_MAIN}/${
+                      item?.product_main_img
+                    }`}
+                    alt="product Image"
+                  />
+                  <p>{item?.product_name}</p>
                 </div>
                 <div className="pqaContainer">
                   <div className="price-quantity">
@@ -166,14 +171,11 @@ const UserCart = () => {
                         <FaPlus />
                       </span>
                     </div>
-                    <span>৳{isBangla ? item?.bn_price : item?.price}</span>
+                    <span>৳{item?.current_price}</span>
                   </div>
                   <div className="actions">
                     <span onClick={() => deleteCartItem(item?.id)}>
                       <FaTrash />
-                    </span>
-                    <span>
-                      <FaHeart />
                     </span>
                   </div>
                 </div>
