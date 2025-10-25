@@ -23,6 +23,8 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   // all products
   const [allProducts, setAllProducts] = useState([]);
+  // all banners
+  const [banners, setBanners] = useState([]);
   // fetch categories from database
   useEffect(() => {
     try {
@@ -62,10 +64,42 @@ const Home = () => {
       setIsLoading(false);
     }
   }, [lang, setIsLoading]);
+  // fetch all banners from database
+  useEffect(() => {
+    try {
+      setIsLoading(true);
+      fetch(`${import.meta.env.VITE_API}/all_banners.php`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success) {
+            setBanners(data?.data);
+          } else {
+            console.log(data?.message);
+          }
+        })
+        .catch((error) => console.log(error.message));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [setIsLoading]);
+  // products
   const trendingSectionProducts = allProducts?.slice(0, 8);
   const productSectionOneProducts = allProducts?.slice(8, 12);
   const productSectionTwoProducts = allProducts?.slice(12);
   const productSectionThreeProducts = allProducts;
+  // banners
+  const mainBanners =
+    banners && banners?.filter((banner) => banner?.banner_section == "main");
+  const rectangleTwo =
+    banners &&
+    banners?.filter((banner) => banner?.banner_section == "rectangle_two");
+  const grid =
+    banners && banners?.filter((banner) => banner?.banner_section == "grid");
+  const rectangleThree =
+    banners &&
+    banners?.filter((banner) => banner?.banner_section == "rectangle_three");
   return (
     <div>
       {/* Loader */}
@@ -74,7 +108,7 @@ const Home = () => {
         {/* Home category */}
         <HomeCategory categories={categories} />
         {/* Banner section */}
-        <Banner />
+        <Banner mainBanners={mainBanners} />
         {/* Why Choose us section */}
         <WhyChooseUs />
         {/* Trending Section */}
@@ -84,7 +118,7 @@ const Home = () => {
         />
       </Container>
       {/* Promotion Banner */}
-      <PromotionBanner />
+      <PromotionBanner rectangleTwo={rectangleTwo} />
       {/* Product section one*/}
       <Container>
         <ProductsSectionOne
@@ -93,7 +127,7 @@ const Home = () => {
       </Container>
       {/* Promotion banner 2 */}
       <Container>
-        <PromotionBannerTwo />
+        <PromotionBannerTwo grid={grid} />
       </Container>
       {/* Product Section 2 */}
       <Container>
@@ -103,7 +137,7 @@ const Home = () => {
       </Container>
       {/* Promotion Banner Three */}
       <Container>
-        <PromotionBannerThree />
+        <PromotionBannerThree rectangleThree={rectangleThree} />
       </Container>
       {/* Product Section Three */}
       <Container>
