@@ -1,19 +1,58 @@
 import React from "react";
 import "./Login.css";
 import Container from "../../components/Container/Container";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useLang from "../../hooks/useLang";
+import { getFormData } from "../../utils/getFormData";
+import toast from "react-hot-toast";
+import useUser from "../../hooks/useUser";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 const Login = () => {
   const { isBangla } = useLang();
+  const { setUser, isLoading, setIsLoading } = useUser();
+  const navigate = useNavigate();
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    const formData = getFormData(e.target);
+    try {
+      setIsLoading(true);
+      fetch(`${import.meta.env.VITE_API}/user_login.php`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success) {
+            if (data?.message == "Login successful") {
+              setUser(data?.data);
+              toast.success(data?.message);
+              navigate("/");
+            } else {
+              toast.error(data?.message);
+            }
+          } else {
+            console.log(data?.message);
+          }
+        })
+        .catch((error) => console.log(error.message));
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  if (isLoading) return <LoadingSpinner />;
   return (
     <Container>
       <section id="login">
         <div className="loginContainer">
           <h4>{isBangla ? "সাইন ইন করুন" : "Please Sign In"}</h4>
-          <form>
+          <form onSubmit={handleSignIn}>
             <input
               type="text"
-              name="emailOrPhone"
+              name="user_name"
               placeholder={isBangla ? "ফোন নাম্বার/ইমেল" : "Phone Number/Email"}
             />
             <input
