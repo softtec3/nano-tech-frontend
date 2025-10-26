@@ -75,7 +75,7 @@ const SalesPointCart = () => {
           </thead>
           <tbody>
             {cartItems
-              ?.sort((a, b) => a.name.localeCompare(b.name))
+              ?.sort((a, b) => a.product_name.localeCompare(b.product_name))
               .map((cartItem) => (
                 <SingleCartItem
                   key={cartItem.id}
