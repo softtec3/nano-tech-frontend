@@ -63,6 +63,13 @@ const TopNavbar = () => {
             <Link to={"/login"}>{isBangla ? "লগইন" : "Login"}</Link>
           </li>
         )}
+        {user && user?.user_name ? (
+          <li>
+            <Link to={"/account"}>{isBangla ? "আকাউন্ট" : "Account"}</Link>
+          </li>
+        ) : (
+          ""
+        )}
 
         <li>
           <Link>{isBangla ? "সেলস পয়েন্টস" : "Sales Points"}</Link>

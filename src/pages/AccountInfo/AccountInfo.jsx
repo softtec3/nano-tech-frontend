@@ -5,8 +5,10 @@ import { Link } from "react-router";
 import useLang from "../../hooks/useLang";
 import AccordionMui from "../../components/AccordionMui/AccordionMui";
 import "./AccountInfo.css";
+import useUser from "../../hooks/useUser";
 const AccountInfo = ({ setIsAccountShow, setIsShow }) => {
   const { isBangla } = useLang();
+  const { user } = useUser();
   const sections = [
     {
       title: isBangla ? "ন্যানোটেক সম্পর্কে" : "About Nano-Tech",
@@ -78,9 +80,14 @@ const AccountInfo = ({ setIsAccountShow, setIsShow }) => {
           </Link>
         </div>
         <div className="accountInfoDetails">
-          <Link to={"/login"} className="logRegBtn">
-            {isBangla ? "লগইন/রেজিস্টার" : "Login/Register"}
-          </Link>
+          {user && user?.user_name ? (
+            ""
+          ) : (
+            <Link to={"/login"} className="logRegBtn">
+              {isBangla ? "লগইন/রেজিস্টার" : "Login/Register"}
+            </Link>
+          )}
+
           <div className="accountInfoNavigation">
             <Link>
               <img

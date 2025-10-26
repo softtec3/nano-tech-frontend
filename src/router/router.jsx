@@ -9,6 +9,7 @@ import AccountInfo from "../pages/AccountInfo/AccountInfo";
 import SignUp from "../pages/SignUp/SignUp";
 import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
 import Checkout from "../pages/Checkout/Checkout";
+import PrivateRoute from "../routes/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -22,7 +23,14 @@ export const router = createBrowserRouter([
       { path: "login", Component: Login },
       { path: "signup", Component: SignUp },
       { path: "forget-password", Component: ForgetPassword },
-      { path: "account", Component: AccountInfo },
+      {
+        path: "account",
+        element: (
+          <PrivateRoute>
+            <AccountInfo />
+          </PrivateRoute>
+        ),
+      },
       { path: "checkout", Component: Checkout },
     ],
   },

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Login.css";
 import Container from "../../components/Container/Container";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useLang from "../../hooks/useLang";
 import { getFormData } from "../../utils/getFormData";
 import toast from "react-hot-toast";
@@ -9,8 +9,10 @@ import useUser from "../../hooks/useUser";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 const Login = () => {
   const { isBangla } = useLang();
-  const { setUser, isLoading, setIsLoading } = useUser();
+  const { setUser, isLoading, setIsLoading, user } = useUser();
+  const { state } = useLocation();
   const navigate = useNavigate();
+  if (user && user?.user_name) navigate("/");
   const handleSignIn = (e) => {
     e.preventDefault();
     const formData = getFormData(e.target);
@@ -28,7 +30,7 @@ const Login = () => {
             if (data?.message == "Login successful") {
               setUser(data?.data);
               toast.success(data?.message);
-              navigate("/");
+              state ? navigate(state) : navigate("/");
             } else {
               toast.error(data?.message);
             }
