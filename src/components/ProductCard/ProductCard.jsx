@@ -8,9 +8,27 @@ import useCart from "../../hooks/useCart";
 import toast from "react-hot-toast";
 const ProductCard = ({ product = {} }) => {
   const { isBangla } = useLang();
-  const { setCartItems } = useCart();
+  const { cartItems, setCartItems } = useCart();
+  // add to cart
   const addToCart = (product) => {
-    setCartItems((prev) => [...prev, product]);
+    console.log(product);
+    const check = cartItems.filter((item) => {
+      return item?.product_id == product?.id;
+    });
+    if (check.length > 0) {
+      toast.error("Already added");
+      return;
+    }
+    const modifiedCartItem = {
+      product_id: product?.id,
+      product_name: product?.product_name,
+      available_quantity: product?.product_quantity,
+      quantity: 1,
+      price: product?.current_price,
+      delivery_charge: product?.delivery_charge,
+      product_image: product?.product_main_img,
+    };
+    setCartItems((prev) => [...prev, modifiedCartItem]);
     toast.success("Added to cart");
   };
   return (

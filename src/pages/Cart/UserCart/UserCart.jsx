@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./UserCart.css";
 import Navigation from "../../../components/Navigation/Navigation";
-import { IoLocationSharp } from "react-icons/io5";
-import { FaHeart, FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
+
 import useCart from "../../../hooks/useCart";
 import useLang from "../../../hooks/useLang";
 import toast from "react-hot-toast";
 import useUser from "../../../hooks/useUser";
 import { getFormData } from "../../../utils/getFormData";
 import { FaEdit } from "react-icons/fa";
+import CartItem from "./CartItem";
 const UserCart = () => {
   const { user } = useUser();
   // user info
@@ -17,9 +17,14 @@ const UserCart = () => {
   const [isShow, setIsShow] = useState(false);
   const [isAvailable, setIsAvailable] = useState(true);
   const { isBangla } = useLang();
+  const [subTotal, setSubTotal] = useState(0);
+  const [deliveryCharge, setDeliveryCharge] = useState(0);
+  const [payable, setPayable] = useState(0);
+
   const deleteCartItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+    setCartItems(cartItems.filter((item) => item.product_id !== id));
     toast.error("Cart Item Deleted");
+    handleCalculation();
   };
   // handle save address
   const handleAddress = (e) => {
@@ -110,7 +115,30 @@ const UserCart = () => {
     if (isAvailable === false) {
       toast.error("Please fill out address");
     }
+    const finalObject = {
+      user_id: user?.user_id,
+      user_name: user?.user_name,
+      full_name: userInfo?.full_name,
+      payment_method: "COD",
+      cart: cartItems,
+    };
+    console.log(finalObject);
   };
+  // Count total
+  const handleCalculation = useCallback(() => {
+    const sub_total = cartItems.reduce((a, b) => {
+      return a + b.price * b.quantity;
+    }, 0);
+    setSubTotal(sub_total);
+    const total_delivery_charge = cartItems.reduce((a, b) => {
+      return a + b.delivery_charge;
+    }, 0);
+    setDeliveryCharge(total_delivery_charge);
+    setPayable(sub_total + total_delivery_charge);
+  }, [cartItems]);
+  useEffect(() => {
+    handleCalculation();
+  }, [handleCalculation]);
   return (
     <div id="userCart">
       <div className="userCartLeft">
@@ -288,52 +316,12 @@ const UserCart = () => {
 
         <div className="userCartItems">
           {cartItems?.map((item, index) => (
-            <div key={index} className="userCartItem">
-              <div className="userCartItemTop" key={index}>
-                <div className="uciLeft">
-                  <IoLocationSharp size={20} />
-                  <b>{isBangla ? "ন্যানো-টেক" : "Nano-Tech"}</b>
-                  {isBangla
-                    ? "সফটওয়্যার পার্ক, যশোর"
-                    : "Software Park, Jashore"}
-                </div>
-                <div className="uciRight">
-                  {isBangla
-                    ? "ডেলিভারি চার্জ ৳১২০০"
-                    : "Delivery Charge: ৳1,200"}
-                </div>
-              </div>
-              <div className="userCartItemBottom">
-                <div className="img-desc">
-                  <img
-                    src={`${import.meta.env.VITE_API_MAIN}/${
-                      item?.product_main_img
-                    }`}
-                    alt="product Image"
-                  />
-                  <p>{item?.product_name}</p>
-                </div>
-                <div className="pqaContainer">
-                  <div className="price-quantity">
-                    <div className="quantityContainer">
-                      <span className="increment">
-                        <FaMinus />
-                      </span>
-                      <span>1</span>
-                      <span className="decrement">
-                        <FaPlus />
-                      </span>
-                    </div>
-                    <span>৳{item?.current_price}</span>
-                  </div>
-                  <div className="actions">
-                    <span onClick={() => deleteCartItem(item?.id)}>
-                      <FaTrash />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <CartItem
+              key={index}
+              item={item}
+              deleteCartItem={deleteCartItem}
+              handleCalculation={handleCalculation}
+            />
           ))}
         </div>
       </div>
@@ -368,23 +356,23 @@ const UserCart = () => {
           </h5>
           <div>
             <span>{isBangla ? "সাব-টোটাল" : "Subtotal"}</span>
-            <span> ৳1,00,400</span>
+            <span> ৳{subTotal}</span>
           </div>
 
           <div>
             <span>{isBangla ? "ডেলিভারি চার্জ" : "Delivery Charge"} </span>{" "}
-            <span>৳2,400</span>
+            <span>৳{deliveryCharge}</span>
           </div>
 
-          <div>
+          {/* <div>
             <span>{isBangla ? "ডিস্কাউন্ট" : "Discount"}</span>
             <span> ৳10,040</span>
-          </div>
+          </div> */}
 
           <hr />
           <div style={{ fontWeight: "bold" }}>
             <span>{isBangla ? "প্রদেয়" : "Payable"}</span>
-            <span> ৳92,760</span>
+            <span> ৳{payable}</span>
           </div>
           <div className="termsCheck">
             <input type="checkbox" name="check" />
