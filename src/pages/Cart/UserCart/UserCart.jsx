@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./UserCart.css";
 import Navigation from "../../../components/Navigation/Navigation";
 import { IoLocationSharp } from "react-icons/io5";
@@ -8,12 +8,14 @@ import useLang from "../../../hooks/useLang";
 import toast from "react-hot-toast";
 import useUser from "../../../hooks/useUser";
 import { getFormData } from "../../../utils/getFormData";
+import { FaEdit } from "react-icons/fa";
 const UserCart = () => {
   const { user } = useUser();
   // user info
   const [userInfo, setUserInfo] = useState({});
   const { cartItems, setCartItems } = useCart();
   const [isShow, setIsShow] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(true);
   const { isBangla } = useLang();
   const deleteCartItem = (id) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
@@ -23,7 +25,6 @@ const UserCart = () => {
   const handleAddress = (e) => {
     e.preventDefault();
     const formData = getFormData(e.target);
-    console.log(formData);
     try {
       fetch(
         `${
@@ -40,6 +41,8 @@ const UserCart = () => {
         .then((data) => {
           if (data?.success) {
             toast.success(data?.message);
+            checkAvailability();
+            getUserInfo();
             setIsShow(false);
           } else {
             toast.error("Something went wrong");
@@ -51,8 +54,8 @@ const UserCart = () => {
       console.log(error.message);
     }
   };
-  // fetching logged in user info from database
-  useEffect(() => {
+  // get user info function
+  const getUserInfo = useCallback(() => {
     try {
       fetch(
         `${import.meta.env.VITE_API}/get_user_information.php?user_name=${
@@ -72,7 +75,44 @@ const UserCart = () => {
       console.log(error);
     }
   }, [user]);
+  // fetching logged in user info from database
+  useEffect(() => {
+    getUserInfo();
+  }, [getUserInfo]);
+  // function for checking value
+  const isEmpty = (value) => {
+    if (value === null || value === undefined) return true;
+    if (typeof value === "string" && value.trim().length === 0) return true;
+    if (Array.isArray(value) && value.length === 0) return true;
+    return false;
+  };
+
+  // Check all info available or not
+  const checkAvailability = useCallback(() => {
+    if (
+      isEmpty(userInfo?.full_name) ||
+      isEmpty(userInfo?.mobile_number) ||
+      isEmpty(userInfo?.address_label) ||
+      isEmpty(userInfo?.area) ||
+      isEmpty(userInfo?.address) ||
+      isEmpty(userInfo?.landmark)
+    ) {
+      setIsAvailable(false);
+    } else {
+      setIsAvailable(true);
+    }
+  }, [userInfo]);
+  useEffect(() => {
+    checkAvailability();
+  }, [checkAvailability]);
   console.log(userInfo);
+  console.log(isAvailable);
+  // handle checkout
+  const handleCheckout = () => {
+    if (isAvailable === false) {
+      toast.error("Please fill out address");
+    }
+  };
   return (
     <div id="userCart">
       <div className="userCartLeft">
@@ -81,94 +121,131 @@ const UserCart = () => {
           title={`${isBangla ? "কার্ট" : "Cart"}`}
         />
         {/* address details */}
-        {isShow ? (
-          <form onSubmit={handleAddress} className="customerAddressForm">
-            {/* Address form */}
-            <div className="flexInput">
-              <div className="addFormElm">
-                <label htmlFor="Name">{isBangla ? "নাম*" : "Name*"}</label>
-                <input
-                  type="text"
-                  name="full_name"
-                  defaultValue={userInfo?.full_name}
-                  required
-                  placeholder={isBangla ? "আপনার নাম দিন" : "Input Your Name"}
-                />
+        {isAvailable ? (
+          <div className="addressDetails">
+            <div className="addressDetailsInner">
+              <div className="addressDetailsInnerLeft">
+                <p className="adilP1">Deliver to: {userInfo?.full_name}</p>
+                <div className="adilP2">
+                  <span className="addressLabel">
+                    {userInfo?.address_label}
+                  </span>
+                  <p>
+                    {userInfo?.mobile_number}, {userInfo?.address},{" "}
+                    {userInfo?.area}, {userInfo?.landmark}
+                  </p>
+                </div>
               </div>
-              <div className="addFormElm">
-                <label htmlFor="mobile">
-                  {isBangla ? "মোবাইল নাম্বার" : "Mobile Number*"}
-                </label>
-                <input
-                  type="text"
-                  name="mobile_number"
-                  defaultValue={userInfo?.mobile_number}
-                  required
-                  placeholder={
-                    isBangla ? "সঠিক নাম্বার দিন" : "Input Valid Number"
-                  }
-                />
-              </div>
-            </div>
-            <div className="flexInput">
-              <div className="addFormElm">
-                <label htmlFor="addressLabel">
-                  {isBangla ? "ঠিকানা লেবেল" : "Address Label*"}
-                </label>
-                <select
-                  name="address_label"
-                  required
-                  defaultValue={userInfo?.address_label}
+              <div className="addressDetailsInnerRight">
+                <span
+                  onClick={() => {
+                    setIsAvailable(false);
+                    setIsShow(true);
+                  }}
                 >
-                  <option value="home">{isBangla ? "হোম" : "Home"}</option>
-                  <option value="office">{isBangla ? "অফিস" : "Office"}</option>
-                  <option value="other">
-                    {isBangla ? "অন্যান্য" : "Other"}
-                  </option>
-                </select>
-              </div>
-              <div className="addFormElm">
-                <label htmlFor="area">{isBangla ? "এরিয়া*" : "Area*"}</label>
-                <input
-                  type="text"
-                  name="area"
-                  defaultValue={userInfo?.area}
-                  required
-                  placeholder={isBangla ? "এরিয়া লিখুন" : "Input Your Area"}
-                />
+                  <FaEdit /> Change
+                </span>
               </div>
             </div>
-            <div className="flexInput">
-              <div className="addFormElm">
-                <label htmlFor="address">
-                  {isBangla ? "ঠিকানা*" : "Address*"}
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  defaultValue={userInfo?.address}
-                  required
-                  placeholder={
-                    isBangla ? "আপনার ঠিকানা দিন" : "Input Your Address"
-                  }
-                />
-              </div>
-              <div className="addFormElm">
-                <label htmlFor="Landmark">
-                  {isBangla ? "ল্যান্ডমার্ক*" : "Landmark*"}
-                </label>
-                <input
-                  type="text"
-                  name="landmark"
-                  defaultValue={userInfo?.landmark}
-                  required
-                  placeholder={
-                    isBangla ? "আপনার ল্যান্ডমার্ক দিন" : "Input Your Landmark"
-                  }
-                />
-              </div>
-            </div>
-            {/* <div className="defaultAddress">
+          </div>
+        ) : (
+          <div>
+            {isShow ? (
+              <form onSubmit={handleAddress} className="customerAddressForm">
+                {/* Address form */}
+                <div className="flexInput">
+                  <div className="addFormElm">
+                    <label htmlFor="Name">{isBangla ? "নাম*" : "Name*"}</label>
+                    <input
+                      type="text"
+                      name="full_name"
+                      defaultValue={userInfo?.full_name}
+                      required
+                      placeholder={
+                        isBangla ? "আপনার নাম দিন" : "Input Your Name"
+                      }
+                    />
+                  </div>
+                  <div className="addFormElm">
+                    <label htmlFor="mobile">
+                      {isBangla ? "মোবাইল নাম্বার" : "Mobile Number*"}
+                    </label>
+                    <input
+                      type="text"
+                      name="mobile_number"
+                      defaultValue={userInfo?.mobile_number}
+                      required
+                      placeholder={
+                        isBangla ? "সঠিক নাম্বার দিন" : "Input Valid Number"
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="flexInput">
+                  <div className="addFormElm">
+                    <label htmlFor="addressLabel">
+                      {isBangla ? "ঠিকানা লেবেল" : "Address Label*"}
+                    </label>
+                    <select
+                      name="address_label"
+                      required
+                      defaultValue={userInfo?.address_label}
+                    >
+                      <option value="home">{isBangla ? "হোম" : "Home"}</option>
+                      <option value="office">
+                        {isBangla ? "অফিস" : "Office"}
+                      </option>
+                      <option value="other">
+                        {isBangla ? "অন্যান্য" : "Other"}
+                      </option>
+                    </select>
+                  </div>
+                  <div className="addFormElm">
+                    <label htmlFor="area">
+                      {isBangla ? "এরিয়া*" : "Area*"}
+                    </label>
+                    <input
+                      type="text"
+                      name="area"
+                      defaultValue={userInfo?.area}
+                      required
+                      placeholder={isBangla ? "এরিয়া লিখুন" : "Input Your Area"}
+                    />
+                  </div>
+                </div>
+                <div className="flexInput">
+                  <div className="addFormElm">
+                    <label htmlFor="address">
+                      {isBangla ? "ঠিকানা*" : "Address*"}
+                    </label>
+                    <input
+                      type="text"
+                      name="address"
+                      defaultValue={userInfo?.address}
+                      required
+                      placeholder={
+                        isBangla ? "আপনার ঠিকানা দিন" : "Input Your Address"
+                      }
+                    />
+                  </div>
+                  <div className="addFormElm">
+                    <label htmlFor="Landmark">
+                      {isBangla ? "ল্যান্ডমার্ক*" : "Landmark*"}
+                    </label>
+                    <input
+                      type="text"
+                      name="landmark"
+                      defaultValue={userInfo?.landmark}
+                      required
+                      placeholder={
+                        isBangla
+                          ? "আপনার ল্যান্ডমার্ক দিন"
+                          : "Input Your Landmark"
+                      }
+                    />
+                  </div>
+                </div>
+                {/* <div className="defaultAddress">
               <h6>{isBangla ? "ডিফল্ট ঠিকানা" : "Default Address"}</h6>
               <label>
                 <input type="checkbox" />
@@ -179,27 +256,35 @@ const UserCart = () => {
                 {isBangla ? "ডিফল্ট বিলিং ঠিকানা" : "Default Billing Address"}
               </label>
             </div> */}
-            <div className="formActionsButtons">
-              <button type="button" onClick={() => setIsShow(false)}>
-                {isBangla ? "বাতিল" : "Cancel"}
-              </button>
-              <button type="submit">
-                {isBangla ? "ঠিকানা সেভ করুন" : "Save Address"}
-              </button>
-            </div>
-          </form>
-        ) : (
-          <div className="addressButtons">
-            <button onClick={() => setIsShow(true)}>
-              {isBangla
-                ? "ডেলিভারি ঠিকানা নির্বাচন করুন"
-                : "Select Delivery Address"}
-            </button>
-            {/* <button onClick={() => setIsShow(true)}>
+                <div className="formActionsButtons">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsShow(false);
+                      checkAvailability();
+                    }}
+                  >
+                    {isBangla ? "বাতিল" : "Cancel"}
+                  </button>
+                  <button type="submit">
+                    {isBangla ? "ঠিকানা সেভ করুন" : "Save Address"}
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="addressButtons">
+                <button onClick={() => setIsShow(true)}>
+                  {isBangla
+                    ? "ডেলিভারি ঠিকানা নির্বাচন করুন"
+                    : "Select Delivery Address"}
+                </button>
+                {/* <button onClick={() => setIsShow(true)}>
               {isBangla
                 ? "বিলিং ঠিকানা নির্বাচন করুন"
                 : "Select Billing Address"}
             </button> */}
+              </div>
+            )}
           </div>
         )}
 
@@ -311,7 +396,7 @@ const UserCart = () => {
                 : "I have read and agreed to the Terms and Conditions*"}
             </span>
           </div>
-          <button>
+          <button onClick={handleCheckout}>
             {isBangla ? "চেকআউট করতে এগিয়ে যান" : "Proceed To Checkout"}
           </button>
         </div>
