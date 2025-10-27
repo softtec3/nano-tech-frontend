@@ -29,7 +29,7 @@ const UserCart = () => {
       fetch(
         `${
           import.meta.env.VITE_API
-        }/update_user_address_information.php?user_name=${user?.user_name}`,
+        }/update_user_address_information.php?user_id=${user?.user_id}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,8 +58,8 @@ const UserCart = () => {
   const getUserInfo = useCallback(() => {
     try {
       fetch(
-        `${import.meta.env.VITE_API}/get_user_information.php?user_name=${
-          user?.user_name
+        `${import.meta.env.VITE_API}/get_user_information.php?user_id=${
+          user?.user_id
         }`,
         { credentials: "include" }
       )
@@ -105,8 +105,6 @@ const UserCart = () => {
   useEffect(() => {
     checkAvailability();
   }, [checkAvailability]);
-  console.log(userInfo);
-  console.log(isAvailable);
   // handle checkout
   const handleCheckout = () => {
     if (isAvailable === false) {
@@ -293,8 +291,8 @@ const UserCart = () => {
             <div key={index} className="userCartItem">
               <div className="userCartItemTop" key={index}>
                 <div className="uciLeft">
-                  <IoLocationSharp size={20} />{" "}
-                  <b>{isBangla ? "ন্যানো-টেক" : "Nano-Tech"}</b>{" "}
+                  <IoLocationSharp size={20} />
+                  <b>{isBangla ? "ন্যানো-টেক" : "Nano-Tech"}</b>
                   {isBangla
                     ? "সফটওয়্যার পার্ক, যশোর"
                     : "Software Park, Jashore"}
