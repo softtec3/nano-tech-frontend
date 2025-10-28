@@ -9,18 +9,21 @@ import useUser from "../../../hooks/useUser";
 import { getFormData } from "../../../utils/getFormData";
 import { FaEdit } from "react-icons/fa";
 import CartItem from "./CartItem";
+import { useNavigate } from "react-router";
 const UserCart = () => {
   const { user } = useUser();
+  const navigate = useNavigate();
   // user info
   const [userInfo, setUserInfo] = useState({});
   const { cartItems, setCartItems } = useCart();
   const [isShow, setIsShow] = useState(false);
   const [isAvailable, setIsAvailable] = useState(true);
+  const [termsAccept, setTermsAccept] = useState(false);
   const { isBangla } = useLang();
   const [subTotal, setSubTotal] = useState(0);
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [payable, setPayable] = useState(0);
-
+  // const [pickupType, setPickupType] = useState("home_delivery");
   const deleteCartItem = (id) => {
     setCartItems(cartItems.filter((item) => item.product_id !== id));
     toast.error("Cart Item Deleted");
@@ -114,6 +117,11 @@ const UserCart = () => {
   const handleCheckout = () => {
     if (isAvailable === false) {
       toast.error("Please fill out address");
+      return;
+    }
+    if (termsAccept === false) {
+      toast.error("Please accept terms and condition");
+      return;
     }
     const finalObject = {
       user_id: user?.user_id,
@@ -122,7 +130,30 @@ const UserCart = () => {
       payment_method: "COD",
       cart: cartItems,
     };
-    console.log(finalObject);
+    try {
+      fetch(`${import.meta.env.VITE_API}/create_customer_order.php`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(finalObject),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success) {
+            toast.success(data?.message);
+            setCartItems([]);
+            // navigate to order page while successfully placed an order
+            navigate("/");
+          } else {
+            toast.error("Something went wrong");
+            console.log(data?.message);
+          }
+        })
+        .catch((error) => console.log(error.message));
+    } catch (error) {
+      console.log(error.message);
+    }
+    // console.log(finalObject);
   };
   // Count total
   const handleCalculation = useCallback(() => {
@@ -350,6 +381,27 @@ const UserCart = () => {
             </div>
           </div>
         </div>
+        {/* pickup type */}
+        {/* <div className="orderSummary pickupType">
+          <label htmlFor="pickup_home">
+            <input
+              type="radio"
+              id="pickup_home"
+              name="pickup_type"
+              value="home_delivery"
+            />
+            Home delivery
+          </label>
+          <label htmlFor="pickup_sales_point">
+            <input
+              type="radio"
+              id="pickup_sales_point"
+              name="pickup_type"
+              value="sales_point"
+            />
+            Pickup from sales point
+          </label>
+        </div> */}
         <div className="orderSummary">
           <h5 style={{ marginBottom: "10px" }}>
             {isBangla ? "অর্ডারের সারাংশ" : "Order Summary"}
@@ -375,14 +427,22 @@ const UserCart = () => {
             <span> ৳{payable}</span>
           </div>
           <div className="termsCheck">
-            <input type="checkbox" name="check" />
+            <input
+              type="checkbox"
+              name="check"
+              required
+              onChange={() => setTermsAccept(!termsAccept)}
+            />
             <span>
               {isBangla
                 ? "আমি নিয়ম ও শর্তাবলী পড়েছি এবং তাতে সম্মত হয়েছি*"
                 : "I have read and agreed to the Terms and Conditions*"}
             </span>
           </div>
-          <button onClick={handleCheckout}>
+          <button
+            disabled={cartItems?.length <= 0 ? true : false}
+            onClick={handleCheckout}
+          >
             {isBangla ? "চেকআউট করতে এগিয়ে যান" : "Proceed To Checkout"}
           </button>
         </div>
