@@ -8,11 +8,15 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import ProductInDetail from "../ProductInDetail/ProductInDetail";
 import ProductQuestion from "../ProductQuestion/ProductQuestion";
 import useLang from "../../../hooks/useLang";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import useCart from "../../../hooks/useCart";
+import toast from "react-hot-toast";
 const ProductDetailsMain = ({ product, productSpecification }) => {
   const { isBangla } = useLang();
+  const { cartItems, setCartItems } = useCart();
   const [mobileView, setMobileView] = useState(false);
   const [mainProImage, setMainProImage] = useState("");
+  const navigate = useNavigate();
   const rawImages = [
     product?.product_main_img ?? null,
     product?.product_img_one ?? null,
@@ -36,6 +40,28 @@ const ProductDetailsMain = ({ product, productSpecification }) => {
       `${import.meta.env.VITE_API_MAIN}/${product?.product_main_img}`
     );
   }, [product]);
+  // add to cart
+  const addToCart = (product) => {
+    const check = cartItems.filter((item) => {
+      return item?.product_id == product?.id;
+    });
+    if (check.length > 0) {
+      toast.error("Already added");
+      return;
+    }
+    const modifiedCartItem = {
+      product_id: product?.id,
+      product_name: product?.product_name,
+      available_quantity: product?.product_quantity,
+      quantity: 1,
+      price: product?.current_price,
+      delivery_charge: product?.delivery_charge,
+      product_image: product?.product_main_img,
+    };
+    setCartItems((prev) => [...prev, modifiedCartItem]);
+    toast.success("Added to cart");
+    navigate("/cart");
+  };
   return (
     <div id="productDetailsMain">
       <div style={{ width: "100%" }}>
@@ -170,7 +196,7 @@ const ProductDetailsMain = ({ product, productSpecification }) => {
               {/* Quantity and Buy */}
             </div>
             <div className="pdQuantityBuy">
-              <div className="pdQuantity">
+              {/* <div className="pdQuantity">
                 <span className="pdQuantityTitle">
                   {isBangla ? "পরিমাণ" : "Quantity"}
                 </span>
@@ -183,9 +209,12 @@ const ProductDetailsMain = ({ product, productSpecification }) => {
                     <FaPlus />
                   </span>
                 </div>
-              </div>
+              </div> */}
               <div className="buyNowBtnContainer">
-                <button className="buyNowBtn">
+                <button
+                  onClick={() => addToCart(product)}
+                  className="buyNowBtn"
+                >
                   {isBangla ? "এখনই কিনুন" : "Buy Now"}
                 </button>
               </div>
