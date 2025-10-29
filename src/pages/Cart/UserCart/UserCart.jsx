@@ -26,7 +26,7 @@ const UserCart = () => {
   // const [pickupType, setPickupType] = useState("home_delivery");
   const deleteCartItem = (id) => {
     setCartItems(cartItems.filter((item) => item.product_id !== id));
-    toast.error("Cart Item Deleted");
+    toast.error(isBangla ? "কার্ট থেকে সরানো হয়েছে" : "Cart Item Deleted");
     handleCalculation();
   };
   // handle save address
@@ -53,7 +53,9 @@ const UserCart = () => {
             getUserInfo();
             setIsShow(false);
           } else {
-            toast.error("Something went wrong");
+            toast.error(
+              isBangla ? "কিছু সমস্যা হয়েছে" : "Something went wrong"
+            );
             console.log(data?.message);
           }
         })
@@ -116,11 +118,15 @@ const UserCart = () => {
   // handle checkout
   const handleCheckout = () => {
     if (isAvailable === false) {
-      toast.error("Please fill out address");
+      toast.error(isBangla ? "ঠিকানা পূরণ করুন" : "Please fill out address");
       return;
     }
     if (termsAccept === false) {
-      toast.error("Please accept terms and condition");
+      toast.error(
+        isBangla
+          ? "টার্মস এন্ড কন্ডিশন একসেপ্ট করুন"
+          : "Please accept terms and condition"
+      );
       return;
     }
     const finalObject = {
@@ -145,7 +151,9 @@ const UserCart = () => {
             // navigate to order page while successfully placed an order
             navigate("/");
           } else {
-            toast.error("Something went wrong");
+            toast.error(
+              isBangla ? "কিছু সমস্যা হয়েছে" : "Something went wrong"
+            );
             console.log(data?.message);
           }
         })
@@ -200,7 +208,7 @@ const UserCart = () => {
                     setIsShow(true);
                   }}
                 >
-                  <FaEdit /> Change
+                  <FaEdit /> {isBangla ? "পরিবর্তন" : "Change"}
                 </span>
               </div>
             </div>

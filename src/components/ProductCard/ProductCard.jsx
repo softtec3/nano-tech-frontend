@@ -11,12 +11,11 @@ const ProductCard = ({ product = {} }) => {
   const { cartItems, setCartItems } = useCart();
   // add to cart
   const addToCart = (product) => {
-    console.log(product);
     const check = cartItems.filter((item) => {
       return item?.product_id == product?.id;
     });
     if (check.length > 0) {
-      toast.error("Already added");
+      toast.error(isBangla ? "ইতোমধ্যে কার্টে রয়েছে" : "Already added");
       return;
     }
     const modifiedCartItem = {
@@ -29,7 +28,7 @@ const ProductCard = ({ product = {} }) => {
       product_image: product?.product_main_img,
     };
     setCartItems((prev) => [...prev, modifiedCartItem]);
-    toast.success("Added to cart");
+    toast.success(isBangla ? "কার্টে যোগ হয়েছে" : "Added to cart");
   };
   return (
     // Single Product card

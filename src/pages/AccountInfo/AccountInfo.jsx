@@ -67,7 +67,7 @@ const AccountInfo = ({ setIsAccountShow, setIsShow }) => {
                 style={{ cursor: "pointer" }}
               />
             </Link>
-            Account
+            {isBangla ? "আকাউন্ট" : "Account"}
           </div>
           <Link to={"/"}>
             <FaHome
@@ -103,7 +103,7 @@ const AccountInfo = ({ setIsAccountShow, setIsShow }) => {
               />
               {isBangla ? "ম্যানেজ প্রোফাইল" : "Manage Profile"}
             </Link>
-            <Link>
+            <Link to={"/account/myOrders"}>
               <img
                 src="https://waltonplaza.com.bd/_next/image?url=%2Fmost-recent-50.png&w=48&q=75"
                 alt=""

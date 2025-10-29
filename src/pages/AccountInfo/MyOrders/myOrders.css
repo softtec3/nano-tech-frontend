@@ -1,0 +1,70 @@
+#myOrders {
+  width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  min-height: 70vh;
+}
+.accountInfoTopNav {
+  display: flex;
+  align-items: center;
+  background-color: var(---secondaryColor);
+  justify-content: space-between;
+  padding-left: 5px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  padding: 10px;
+}
+.accountInfoTopNav a:hover {
+  color: var(---primaryColor);
+}
+.accountInfoTopNav div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+#myOrders .orderTable {
+  width: 100%;
+  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+#myOrders .orderTable table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 6px;
+}
+
+#myOrders .orderTable table th,
+#myOrders .orderTable table td {
+  border: 1px solid gainsboro;
+  background-color: white;
+  padding: 5px;
+  text-align: center;
+}
+#myOrders .orderTable table th {
+  background-color: var(---primaryColor);
+  color: white;
+}
+.viewBtn {
+  padding: 5px 8px;
+  font-size: 14px;
+  background-color: #228b2236;
+  border-radius: 3px;
+  color: var(---primaryColor);
+  font-weight: 500;
+  transition: all 0.3s;
+}
+.viewBtn:hover {
+  background-color: var(---primaryColor);
+  color: white;
+}
+@media only screen and (max-width: 1200px) {
+  #myOrders {
+    width: 100%;
+  }
+}
