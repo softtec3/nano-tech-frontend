@@ -91,9 +91,11 @@ const ProductCard = ({ product = {} }) => {
           >
             <BsCart />
           </span>
-          <button className="proBtn">
-            {isBangla ? "এখনই কিনুন" : "Buy Now"}
-          </button>
+          <Link to={`/product/${product.id}`}>
+            <button className="proBtn">
+              {isBangla ? "এখনই কিনুন" : "Buy Now"}
+            </button>
+          </Link>
         </div>
       </div>
     </div>

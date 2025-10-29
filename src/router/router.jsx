@@ -19,7 +19,14 @@ export const router = createBrowserRouter([
       { index: true, Component: Home },
       { path: "product/:id", Component: ProductDetails },
       { path: "shop", Component: Shop },
-      { path: "cart", Component: Cart },
+      {
+        path: "cart",
+        element: (
+          <PrivateRoute>
+            <Cart />
+          </PrivateRoute>
+        ),
+      },
       { path: "login", Component: Login },
       { path: "signup", Component: SignUp },
       { path: "forget-password", Component: ForgetPassword },
