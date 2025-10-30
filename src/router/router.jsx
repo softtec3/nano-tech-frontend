@@ -12,6 +12,8 @@ import Checkout from "../pages/Checkout/Checkout";
 import PrivateRoute from "../routes/PrivateRoute";
 import MyOrders from "../pages/AccountInfo/MyOrders/MyOrders";
 import OrderSingleView from "../pages/AccountInfo/MyOrders/OrderSingleView/OrderSingleView";
+import PrivateSalesPointRoute from "../routes/PrivateSalesPointRoute";
+import SalesShop from "../pages/SalesShop/SalesShop";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +56,14 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <OrderSingleView />
           </PrivateRoute>
+        ),
+      },
+      {
+        path: "/salesShop",
+        element: (
+          <PrivateSalesPointRoute>
+            <SalesShop />
+          </PrivateSalesPointRoute>
         ),
       },
       { path: "checkout", Component: Checkout },

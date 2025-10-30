@@ -8,17 +8,17 @@ import useCart from "../../hooks/useCart";
 import Navigation from "../../components/Navigation/Navigation";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import useLang from "../../hooks/useLang";
+import useUser from "../../hooks/useUser";
 const Cart = () => {
+  const { user } = useUser();
   const navigate = useNavigate();
   const { cartItems } = useCart();
   const { isBangla } = useLang();
-  const isLoggedIn = true;
-  const salesPoint = false;
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!user) {
       navigate("/login");
     }
-  }, [isLoggedIn, navigate]);
+  }, [user, navigate]);
   return (
     <Container>
       <section id="cart">
@@ -42,7 +42,13 @@ const Cart = () => {
             </div>
           </div>
         ) : (
-          <> {salesPoint ? <SalesPointCart /> : <UserCart />}</>
+          <>
+            {user?.role === "sales-representative" ? (
+              <SalesPointCart />
+            ) : (
+              <UserCart />
+            )}
+          </>
         )}
       </section>
     </Container>

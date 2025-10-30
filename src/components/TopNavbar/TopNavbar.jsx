@@ -74,6 +74,14 @@ const TopNavbar = () => {
         <li>
           <Link>{isBangla ? "সেলস পয়েন্টস" : "Sales Points"}</Link>
         </li>
+        {user?.role === "sales-representative" && (
+          <li>
+            <Link to={"/salesShop"}>
+              {isBangla ? "সেলস পয়েন্ট শপ" : "Sales Point Shop"}
+            </Link>
+          </li>
+        )}
+
         <li
           ref={menuRef}
           onClick={() => setIsShow(!isShow)}
