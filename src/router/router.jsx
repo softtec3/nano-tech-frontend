@@ -66,7 +66,14 @@ export const router = createBrowserRouter([
           </PrivateSalesPointRoute>
         ),
       },
-      { path: "checkout", Component: Checkout },
+      {
+        path: "checkout",
+        element: (
+          <PrivateSalesPointRoute>
+            <Checkout />
+          </PrivateSalesPointRoute>
+        ),
+      },
     ],
   },
 ]);

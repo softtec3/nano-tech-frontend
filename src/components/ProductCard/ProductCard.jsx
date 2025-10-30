@@ -1,16 +1,27 @@
 import React from "react";
 import "./ProductCard.css";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FaCartShopping } from "react-icons/fa6";
 import { BsCart } from "react-icons/bs";
 import useLang from "../../hooks/useLang";
 import useCart from "../../hooks/useCart";
 import toast from "react-hot-toast";
+import useUser from "../../hooks/useUser";
 const ProductCard = ({ product = {} }) => {
+  const { user } = useUser();
   const { isBangla } = useLang();
   const { cartItems, setCartItems } = useCart();
+  const location = useLocation();
+  const navigate = useNavigate();
   // add to cart
   const addToCart = (product) => {
+    if (
+      user?.role === "sales-representative" &&
+      location.pathname != "/salesShop"
+    ) {
+      navigate("/salesShop");
+      return;
+    }
     const check = cartItems.filter((item) => {
       return item?.product_id == product?.id;
     });
@@ -18,15 +29,33 @@ const ProductCard = ({ product = {} }) => {
       toast.error(isBangla ? "ইতোমধ্যে কার্টে রয়েছে" : "Already added");
       return;
     }
-    const modifiedCartItem = {
-      product_id: product?.id,
-      product_name: product?.product_name,
-      available_quantity: product?.product_quantity,
-      quantity: 1,
-      price: product?.current_price,
-      delivery_charge: product?.delivery_charge,
-      product_image: product?.product_main_img,
-    };
+    let modifiedCartItem = {};
+    if (
+      user?.role === "sales-representative" &&
+      location.pathname == "/salesShop"
+    ) {
+      modifiedCartItem = {
+        id: cartItems.length + 1 * Math.random(),
+        product_id: product?.id,
+        product_name: product?.product_name,
+        available_quantity: product?.product_quantity,
+        quantity: 1,
+        price: product?.current_price,
+        delivery_charge: product?.delivery_charge,
+        product_image: product?.product_main_img,
+      };
+    } else {
+      modifiedCartItem = {
+        product_id: product?.id,
+        product_name: product?.product_name,
+        available_quantity: product?.product_quantity,
+        quantity: 1,
+        price: product?.current_price,
+        delivery_charge: product?.delivery_charge,
+        product_image: product?.product_main_img,
+      };
+    }
+
     setCartItems((prev) => [...prev, modifiedCartItem]);
     toast.success(isBangla ? "কার্টে যোগ হয়েছে" : "Added to cart");
   };

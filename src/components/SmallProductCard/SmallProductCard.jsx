@@ -1,16 +1,26 @@
 import React from "react";
 import "./SmallProductCard.css";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { BsCart } from "react-icons/bs";
 import useLang from "../../hooks/useLang";
 import useCart from "../../hooks/useCart";
 import toast from "react-hot-toast";
+import useUser from "../../hooks/useUser";
 const SmallProductCard = ({ product = {} }) => {
+  const { user } = useUser();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { isBangla } = useLang();
   const { cartItems, setCartItems } = useCart();
   // add to cart
   const addToCart = (product) => {
-    console.log(product);
+    if (
+      user?.role === "sales-representative" &&
+      location.pathname != "/salesShop"
+    ) {
+      navigate("/salesShop");
+      return;
+    }
     const check = cartItems.filter((item) => {
       return item?.product_id == product?.id;
     });

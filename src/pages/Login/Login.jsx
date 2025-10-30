@@ -28,6 +28,7 @@ const Login = () => {
         .then((data) => {
           if (data?.success) {
             if (data?.message == "Login successful") {
+              console.log(data?.data);
               setUser(data?.data);
               toast.success(data?.message);
               state ? navigate(state) : navigate("/");

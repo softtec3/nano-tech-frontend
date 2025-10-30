@@ -1,15 +1,28 @@
 import { FaXmark } from "react-icons/fa6";
 import useCart from "../../../hooks/useCart";
 import useLang from "../../../hooks/useLang";
+import { useEffect, useState } from "react";
+import useUser from "../../../hooks/useUser";
 
-const SingleCartItem = ({ cartItem, rawTotalProducts }) => {
+const SingleCartItem = ({ cartItem, rawTotalProducts, setChangeState }) => {
+  const { user } = useUser();
   const { isBangla } = useLang();
   const { cartItems, setCartItems } = useCart();
+  const [availableIds, setAvailableIds] = useState([]);
   const removeFromCart = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+    setChangeState((prev) => prev + 1);
+    const multiProducts = cartItems.filter((item) => item.product_id == id);
+    const finalFilter = cartItems.filter((item) => item.product_id !== id);
+    if (multiProducts.length > 0) {
+      multiProducts.pop();
+      setCartItems([...finalFilter, ...multiProducts]);
+    } else {
+      setCartItems(finalFilter);
+    }
   };
 
   const addOneMore = (item) => {
+    setChangeState((prev) => prev + 1);
     setCartItems((prev) => [
       ...prev,
       {
@@ -18,11 +31,13 @@ const SingleCartItem = ({ cartItem, rawTotalProducts }) => {
         paymentType: "",
         payableAmount: 0,
         discountAmount: 0,
+        dueAmount: 0,
       },
     ]);
   };
 
   const handleSelectedId = (finderId, selectedId) => {
+    setChangeState((prev) => prev + 1);
     setCartItems((prev) =>
       prev.map((item) =>
         item.id === finderId ? { ...item, selectedId } : item
@@ -31,6 +46,7 @@ const SingleCartItem = ({ cartItem, rawTotalProducts }) => {
   };
 
   const handleSelectedType = (finderId, selectedType) => {
+    setChangeState((prev) => prev + 1);
     if (selectedType === "cash") {
       setCartItems((prev) =>
         prev.map((item) =>
@@ -62,6 +78,7 @@ const SingleCartItem = ({ cartItem, rawTotalProducts }) => {
   };
 
   const handleDiscount = (finderId, discountAmount) => {
+    setChangeState((prev) => prev + 1);
     setCartItems((prev) =>
       prev.map((item) =>
         item.id === finderId
@@ -78,13 +95,36 @@ const SingleCartItem = ({ cartItem, rawTotalProducts }) => {
       )
     );
   };
-
+  //fetch available product ids from database
+  useEffect(() => {
+    try {
+      fetch(
+        `${
+          import.meta.env.VITE_API
+        }/all_products_ids_by_sales_point.php?sales_point_id=${
+          user.sales_point_id
+        }&product_id=${cartItem.product_id}`,
+        { credentials: "include" }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success) {
+            setAvailableIds(data?.data);
+          } else {
+            console.log(data?.message);
+          }
+        })
+        .catch((error) => console.log(error.message));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [user, cartItem]);
   return (
     <tr>
       <td>
         <img
-          src={cartItem?.image}
-          alt={cartItem?.title}
+          src={`${import.meta.env.VITE_API_MAIN}/${cartItem?.product_image}`}
+          alt={cartItem?.product_name}
           style={{ width: "60px" }}
         />
       </td>
@@ -98,11 +138,13 @@ const SingleCartItem = ({ cartItem, rawTotalProducts }) => {
           <option value="" hidden>
             {isBangla ? "পণ্যের আইডি বাছুন" : "Select Product Id"}
           </option>
-          {cartItem?.productId?.map((id) => (
-            <option key={id} value={id}>
-              {id}
-            </option>
-          ))}
+          {availableIds &&
+            availableIds?.length > 0 &&
+            availableIds?.map((id, index) => (
+              <option key={index} value={id}>
+                {id}
+              </option>
+            ))}
         </select>
       </td>
       <td>
@@ -146,7 +188,7 @@ const SingleCartItem = ({ cartItem, rawTotalProducts }) => {
             {isBangla ? "যোগ করুন+" : "Add+"}
           </button>
           <button
-            onClick={() => removeFromCart(cartItem?.id)}
+            onClick={() => removeFromCart(cartItem?.product_id)}
             className="deleteCartButton"
           >
             <FaXmark size={16} />

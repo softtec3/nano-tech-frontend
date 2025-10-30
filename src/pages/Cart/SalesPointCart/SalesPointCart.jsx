@@ -7,12 +7,14 @@ import Navigation from "../../../components/Navigation/Navigation";
 import useLang from "../../../hooks/useLang";
 
 const SalesPointCart = () => {
+  const [changeState, setChangeState] = useState(0);
   const { isBangla } = useLang();
   const { cartItems } = useCart();
   const [rawTotalProducts, setRawTotalProducts] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [dueAmount, setDueAmount] = useState(0);
+  console.log(cartItems);
   useEffect(() => {
     const total = cartItems.reduce(
       (sum, item) => sum + Number(item?.payableAmount),
@@ -20,25 +22,25 @@ const SalesPointCart = () => {
     );
     console.log(total);
     setTotalPrice(total);
-  }, [cartItems]);
+  }, [cartItems, changeState]);
   useEffect(() => {
     const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
     setRawTotalProducts(total);
-  }, [cartItems]);
+  }, [cartItems, changeState]);
   useEffect(() => {
-    const total = cartItems.reduce(
-      (sum, item) => sum + item?.discountAmount,
-      0
-    );
+    const total = cartItems.reduce((sum, item) => {
+      const dis = item?.discountAmount ?? 0;
+      return sum + dis;
+    }, 0);
     console.log("discount", total);
     setDiscountAmount(total);
-  }, [cartItems]);
+  }, [cartItems, changeState]);
   useEffect(() => {
     const total = cartItems.reduce((sum, item) => sum + item?.dueAmount, 0);
     console.log("discount", total);
     setDueAmount(total);
-  }, [cartItems]);
+  }, [cartItems, changeState]);
 
   return (
     <div id="cart">
@@ -76,11 +78,12 @@ const SalesPointCart = () => {
           <tbody>
             {cartItems
               ?.sort((a, b) => a.product_name.localeCompare(b.product_name))
-              .map((cartItem) => (
+              .map((cartItem, index) => (
                 <SingleCartItem
-                  key={cartItem.id}
+                  key={index}
                   cartItem={cartItem}
                   rawTotalProducts={rawTotalProducts}
+                  setChangeState={setChangeState}
                 />
               ))}
           </tbody>

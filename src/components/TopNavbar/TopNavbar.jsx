@@ -6,11 +6,13 @@ import Logo from "../Logo/Logo";
 import useUser from "../../hooks/useUser";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import useCart from "../../hooks/useCart";
 const TopNavbar = () => {
   // This is top navbar. It will show to everywhere.
   const [isShow, setIsShow] = useState(false);
   const { isBangla, setLang } = useLang();
   const { user, setUser, isLoading } = useUser();
+  const { setCartItems } = useCart();
   const navigate = useNavigate();
   const menuRef = useRef(null);
   // logout
@@ -25,6 +27,7 @@ const TopNavbar = () => {
             toast.success(data?.message);
             setUser(null);
             navigate("/");
+            setCartItems([]);
           } else {
             toast.error("Something went wrong");
           }

@@ -11,7 +11,9 @@ import useLang from "../../../hooks/useLang";
 import { Link, useNavigate } from "react-router";
 import useCart from "../../../hooks/useCart";
 import toast from "react-hot-toast";
+import useUser from "../../../hooks/useUser";
 const ProductDetailsMain = ({ product, productSpecification }) => {
+  const { user } = useUser();
   const { isBangla } = useLang();
   const { cartItems, setCartItems } = useCart();
   const [mobileView, setMobileView] = useState(false);
@@ -42,6 +44,10 @@ const ProductDetailsMain = ({ product, productSpecification }) => {
   }, [product]);
   // add to cart
   const addToCart = (product) => {
+    if (user?.role === "sales-representative") {
+      navigate("/salesShop");
+      return;
+    }
     const check = cartItems.filter((item) => {
       return item?.product_id == product?.id;
     });
