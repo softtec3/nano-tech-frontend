@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import "./checkout.css";
 import useCart from "../../hooks/useCart";
 import useLang from "../../hooks/useLang";
+import { Navigate, useNavigate } from "react-router";
+import useUser from "../../hooks/useUser";
+import toast from "react-hot-toast";
 
 const Checkout = () => {
+  const { user } = useUser();
   const [currentStep, setCurrentStep] = useState("Customer Info");
-  const { cartItems } = useCart();
+  const { cartItems, setCartItems } = useCart();
   const { isBangla } = useLang();
   const [isInstallment, setIsInstallment] = useState(false);
   const [totalPayableAmount, setTotalPayableAmount] = useState(0);
   const [totalDueAmount, setTotalDueAmount] = useState(0);
+  const navigate = useNavigate();
   const [customerInfo, setCustomerInfo] = useState({
     customerName: "",
     customerMobile: "",
@@ -73,8 +78,91 @@ const Checkout = () => {
       { guarantorInfo },
       { totalPayableAmount },
       { totalDueAmount },
+      { cartItems },
     ]);
   };
+  // handle sales point order
+  const handleSalesPointOrder = (e) => {
+    handleSubmit();
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    formData.append("customer_info", JSON.stringify(customerInfo));
+    formData.append("guarantor_info", JSON.stringify(guarantorInfo));
+    formData.append("carts_item", JSON.stringify(cartItems));
+    formData.append("totalDueAmount", totalDueAmount);
+    formData.append("totalPayableAmount", totalPayableAmount);
+    if (customerInfo.customerPhoto) {
+      formData.append("customer_photo", customerInfo.customerPhoto);
+    }
+    if (customerInfo.customerNIDfront) {
+      formData.append("customer_nid_front", customerInfo.customerNIDfront);
+    }
+    if (customerInfo.customerNIDback) {
+      formData.append("customer_nid_back", customerInfo.customerNIDback);
+    }
+    if (customerInfo.customerFilledCheckPhoto) {
+      formData.append(
+        "customer_filled_check",
+        customerInfo.customerFilledCheckPhoto
+      );
+    }
+    if (guarantorInfo.guarantorNIDfront) {
+      formData.append("guarantor_nid_front", guarantorInfo.guarantorNIDfront);
+    }
+    if (guarantorInfo.guarantorNIDback) {
+      formData.append("guarantor_nid_back", guarantorInfo.guarantorNIDback);
+    }
+    if (guarantorInfo.guarantorPhoto) {
+      formData.append("guarantor_photo", guarantorInfo.guarantorPhoto);
+    }
+
+    console.log(formData);
+    try {
+      fetch(
+        `${
+          import.meta.env.VITE_API
+        }/create_sales_point_order.php?sales_point_id=${user.sales_point_id}`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success) {
+            toast.success(data?.message);
+            console.log(data?.data);
+            setCartItems([]);
+            setCustomerInfo({
+              customerName: "",
+              customerMobile: "",
+              customerAddress: "",
+              customerPhoto: "",
+              customerNIDfront: "",
+              customerNIDback: "",
+              customerCheckNo: "",
+              customerFilledCheckPhoto: "",
+            });
+            setGuarantorInfo({
+              guarantorName: "",
+              guarantorMobile: "",
+              guarantorPhoto: "",
+              guarantorNIDfront: "",
+              guarantorNIDback: "",
+            });
+            navigate("/");
+          } else {
+            toast.error("Something went wrong");
+            console.log(data?.message);
+          }
+        })
+        .catch((error) => console.log(error.message));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  if (cartItems?.length <= 0) return <Navigate to={"/salesShop"} />;
   return (
     <div
       style={{ maxWidth: 650, margin: "auto", fontFamily: "Arial, sans-serif" }}
@@ -105,7 +193,12 @@ const Checkout = () => {
           </div>
         ))}
       </div>
-      <div className="stepContainer">
+      <form
+        onSubmit={handleSalesPointOrder}
+        method="POST"
+        encType="multipart/form-data"
+        className="stepContainer"
+      >
         {/* Step Content */}
         {/* customer info */}
         {currentStep === "Customer Info" && (
@@ -157,8 +250,12 @@ const Checkout = () => {
                         {isBangla ? "ক্রেতার ছবি" : "Customer Photo"}
                       </label>
                       <input
-                        onChange={handleCustomerInfo}
-                        value={customerInfo.customerPhoto}
+                        onChange={(e) =>
+                          setCustomerInfo((prev) => ({
+                            ...prev,
+                            customerPhoto: e.target.files[0],
+                          }))
+                        }
                         name="customerPhoto"
                         type="file"
                         required
@@ -167,8 +264,12 @@ const Checkout = () => {
                     <div className="form-group">
                       <label>{isBangla ? "এনআইডি সামন" : "NID Front"}</label>
                       <input
-                        onChange={handleCustomerInfo}
-                        value={customerInfo.customerNIDfront}
+                        onChange={(e) =>
+                          setCustomerInfo((prev) => ({
+                            ...prev,
+                            customerNIDfront: e.target.files[0],
+                          }))
+                        }
                         name="customerNIDfront"
                         type="file"
                         required
@@ -179,8 +280,12 @@ const Checkout = () => {
                         {isBangla ? "এনআইডি পিছন" : "Customer NID Back"}
                       </label>
                       <input
-                        onChange={handleCustomerInfo}
-                        value={customerInfo.customerNIDback}
+                        onChange={(e) =>
+                          setCustomerInfo((prev) => ({
+                            ...prev,
+                            customerNIDback: e.target.files[0],
+                          }))
+                        }
                         name="customerNIDback"
                         type="file"
                         required
@@ -207,8 +312,12 @@ const Checkout = () => {
                           : "Customer Filled MICR Check Photo"}
                       </label>
                       <input
-                        onChange={handleCustomerInfo}
-                        value={customerInfo.customerFilledCheckPhoto}
+                        onChange={(e) =>
+                          setCustomerInfo((prev) => ({
+                            ...prev,
+                            customerFilledCheckPhoto: e.target.files[0],
+                          }))
+                        }
                         name="customerFilledCheckPhoto"
                         type="file"
                         required
@@ -270,8 +379,12 @@ const Checkout = () => {
                         {isBangla ? "জামিনদার ছবি" : "Guarantor Photo"}
                       </label>
                       <input
-                        onChange={handleGuarantorInfo}
-                        value={guarantorInfo.guarantorPhoto}
+                        onChange={(e) =>
+                          setGuarantorInfo((prev) => ({
+                            ...prev,
+                            guarantorPhoto: e.target.files[0],
+                          }))
+                        }
                         name="guarantorPhoto"
                         type="file"
                         required
@@ -284,8 +397,12 @@ const Checkout = () => {
                           : "Guarantor NID Front"}
                       </label>
                       <input
-                        onChange={handleGuarantorInfo}
-                        value={guarantorInfo.guarantorNIDfront}
+                        onChange={(e) =>
+                          setGuarantorInfo((prev) => ({
+                            ...prev,
+                            guarantorNIDfront: e.target.files[0],
+                          }))
+                        }
                         name="guarantorNIDfront"
                         type="file"
                         required
@@ -298,8 +415,12 @@ const Checkout = () => {
                           : "Guarantor NID Back"}
                       </label>
                       <input
-                        onChange={handleGuarantorInfo}
-                        value={guarantorInfo.guarantorNIDback}
+                        onChange={(e) =>
+                          setGuarantorInfo((prev) => ({
+                            ...prev,
+                            guarantorNIDback: e.target.files[0],
+                          }))
+                        }
                         name="guarantorNIDback"
                         type="file"
                         required
@@ -369,12 +490,12 @@ const Checkout = () => {
                         cartItems.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{item.name}</td>
+                            <td>{item?.product_name}</td>
                             <td>1</td>
-                            <td>{item.price}</td>
-                            <td>{item.discountAmount}</td>
-                            <td>{item.payableAmount}</td>
-                            <td>{item.dueAmount}</td>
+                            <td>{item?.price}</td>
+                            <td>{item?.discountAmount}</td>
+                            <td>{item?.payableAmount}</td>
+                            <td>{item?.dueAmount}</td>
                           </tr>
                         ))}
                     </tbody>
@@ -384,10 +505,11 @@ const Checkout = () => {
                   <hr />
                   <p className="total">
                     {isBangla ? "মোট" : "Total"}:{" "}
-                    <span>${totalPayableAmount}</span>
+                    <span>{totalPayableAmount} TK</span>
                   </p>
                   <p className="total">
-                    {isBangla ? "বাকি" : "Due"}: <span>${totalDueAmount}</span>
+                    {isBangla ? "বাকি" : "Due"}:{" "}
+                    <span>{totalDueAmount} TK</span>
                   </p>
                 </div>
                 <div className="flexCheckout">
@@ -401,7 +523,7 @@ const Checkout = () => {
                   >
                     {isBangla ? "পূর্ববর্তী" : "Back"}
                   </button>
-                  <button className="btn" onClick={handleSubmit}>
+                  <button type="submit" className="btn">
                     {isBangla ? "জমা দিন" : "Submit"}
                   </button>
                 </div>
@@ -409,7 +531,7 @@ const Checkout = () => {
             </>
           </div>
         )}
-      </div>
+      </form>
     </div>
   );
 };

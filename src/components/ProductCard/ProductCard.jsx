@@ -34,6 +34,10 @@ const ProductCard = ({ product = {} }) => {
       user?.role === "sales-representative" &&
       location.pathname == "/salesShop"
     ) {
+      if (product?.product_quantity < 1) {
+        toast.error("Product unavailable");
+        return;
+      }
       modifiedCartItem = {
         id: cartItems.length + 1 * Math.random(),
         product_id: product?.id,
@@ -41,6 +45,7 @@ const ProductCard = ({ product = {} }) => {
         available_quantity: product?.product_quantity,
         quantity: 1,
         price: product?.current_price,
+        discountAmount: 0,
         delivery_charge: product?.delivery_charge,
         product_image: product?.product_main_img,
       };
