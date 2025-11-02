@@ -103,13 +103,24 @@ const AccountInfo = ({ setIsAccountShow, setIsShow }) => {
               />
               {isBangla ? "ম্যানেজ প্রোফাইল" : "Manage Profile"}
             </Link>
-            <Link to={"/account/myOrders"}>
-              <img
-                src="https://waltonplaza.com.bd/_next/image?url=%2Fmost-recent-50.png&w=48&q=75"
-                alt=""
-              />{" "}
-              {isBangla ? "আমার অর্ডার" : "My Order"}
-            </Link>
+            {user && user?.role == "sales-representative" ? (
+              <Link to={"/account/salesOrders"}>
+                <img
+                  src="https://waltonplaza.com.bd/_next/image?url=%2Fmost-recent-50.png&w=48&q=75"
+                  alt=""
+                />{" "}
+                {isBangla ? "আমার অর্ডার" : "My Order"}
+              </Link>
+            ) : (
+              <Link to={"/account/myOrders"}>
+                <img
+                  src="https://waltonplaza.com.bd/_next/image?url=%2Fmost-recent-50.png&w=48&q=75"
+                  alt=""
+                />{" "}
+                {isBangla ? "আমার অর্ডার" : "My Order"}
+              </Link>
+            )}
+
             <Link>
               <img
                 src="https://waltonplaza.com.bd/_next/image?url=%2Faddress-book-50.png&w=48&q=75"
