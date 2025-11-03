@@ -89,11 +89,11 @@ const AccountInfo = ({ setIsAccountShow, setIsShow }) => {
           )}
 
           <div className="accountInfoNavigation">
-            <Link>
+            <Link to={"/account/myProfile"}>
               <img
                 src="https://waltonplaza.com.bd/_next/image?url=%2Fuser-profile-64.png&w=48&q=75"
                 alt=""
-              />{" "}
+              />
               {isBangla ? "আমার প্রোফাইল" : "My Profile"}
             </Link>
             <Link>
