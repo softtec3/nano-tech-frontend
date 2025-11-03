@@ -85,6 +85,30 @@ const Checkout = () => {
   const handleSalesPointOrder = (e) => {
     handleSubmit();
     e.preventDefault();
+    if (!isInstallment) {
+      if (
+        customerInfo.customerName.trim() == "" ||
+        customerInfo.customerMobile.trim() == "" ||
+        customerInfo.customerAddress.trim() == ""
+      ) {
+        toast.error("All Fields are required");
+        return;
+      }
+    } else {
+      for (const key in customerInfo) {
+        if (customerInfo[key] == "") {
+          toast.error(`${key} field is required`);
+          return;
+        }
+      }
+      for (const key in guarantorInfo) {
+        if (guarantorInfo[key] == "") {
+          toast.error(`${key} field is required`);
+          return;
+        }
+      }
+    }
+
     const formData = new FormData(e.target);
     formData.append("customer_info", JSON.stringify(customerInfo));
     formData.append("guarantor_info", JSON.stringify(guarantorInfo));
