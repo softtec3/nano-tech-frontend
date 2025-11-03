@@ -120,7 +120,17 @@ const AccountInfo = ({ setIsAccountShow, setIsShow }) => {
                 {isBangla ? "আমার অর্ডার" : "My Order"}
               </Link>
             )}
-
+            {user && user?.role == "sales-representative" ? (
+              <Link to={"/account/myProducts"}>
+                <img
+                  src="https://waltonplaza.com.bd/_next/image?url=%2Fuser-profile-64.png&w=48&q=75"
+                  alt=""
+                />
+                {isBangla ? "আমার পণ্যসমূহ" : "My products"}
+              </Link>
+            ) : (
+              ""
+            )}
             <Link>
               <img
                 src="https://waltonplaza.com.bd/_next/image?url=%2Faddress-book-50.png&w=48&q=75"

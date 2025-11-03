@@ -16,6 +16,7 @@ import PrivateSalesPointRoute from "../routes/PrivateSalesPointRoute";
 import SalesShop from "../pages/SalesShop/SalesShop";
 import SalesOrders from "../pages/AccountInfo/SalesOrder/SalesOrders";
 import SalesOrderSingleView from "../pages/AccountInfo/SalesOrder/SalesOrderSingleView/SalesOrderSingleView";
+import MyProducts from "../pages/AccountInfo/MyProducts/MyProducts";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateSalesPointRoute>
             <SalesOrders />
+          </PrivateSalesPointRoute>
+        ),
+      },
+      {
+        path: "account/myProducts",
+        element: (
+          <PrivateSalesPointRoute>
+            <MyProducts />
           </PrivateSalesPointRoute>
         ),
       },
