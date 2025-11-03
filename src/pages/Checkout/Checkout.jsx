@@ -86,13 +86,11 @@ const Checkout = () => {
     handleSubmit();
     e.preventDefault();
     if (!isInstallment) {
-      if (
-        customerInfo.customerName.trim() == "" ||
-        customerInfo.customerMobile.trim() == "" ||
-        customerInfo.customerAddress.trim() == ""
-      ) {
-        toast.error("All Fields are required");
-        return;
+      for (const key in customerInfo) {
+        if (customerInfo[key] == "") {
+          toast.error(`${key} field is required`);
+          return;
+        }
       }
     } else {
       for (const key in customerInfo) {

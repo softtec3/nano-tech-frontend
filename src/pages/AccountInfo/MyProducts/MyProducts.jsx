@@ -27,7 +27,7 @@ const MyProducts = () => {
       .catch((error) => console.log(error.message));
   }, [user]);
   return (
-    <section id="myProducts">
+    <div id="myProducts">
       <AccountInfoNavigation
         banglaName={"আমার পণ্যসমূহ"}
         englishName={"My products"}
@@ -58,7 +58,7 @@ const MyProducts = () => {
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
   );
 };
 
