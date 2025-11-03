@@ -7,6 +7,7 @@ import Navigation from "../../../components/Navigation/Navigation";
 import useLang from "../../../hooks/useLang";
 
 const SalesPointCart = () => {
+  const [validToGo, setValidToGo] = useState(false);
   const [changeState, setChangeState] = useState(0);
   const { isBangla } = useLang();
   const { cartItems } = useCart();
@@ -41,7 +42,17 @@ const SalesPointCart = () => {
     console.log("discount", total);
     setDueAmount(total);
   }, [cartItems, changeState]);
-
+  // check valid to go
+  useEffect(() => {
+    for (const item of cartItems) {
+      console.log(item);
+      if (item?.selectedId && item?.paymentType) {
+        setValidToGo(true);
+      } else {
+        setValidToGo(false);
+      }
+    }
+  }, [cartItems]);
   return (
     <div id="cart">
       <Navigation
@@ -117,10 +128,12 @@ const SalesPointCart = () => {
             </tbody>
           </table>
           <Link
-            to={`${cartItems.length > 0 ? "/checkout" : "/cart"}`}
+            to={`${cartItems.length > 0 && validToGo ? "/checkout" : "/cart"}`}
             className="btn"
             style={{
               margin: "0 auto",
+              backgroundColor: `${validToGo ? "" : "gray"}`,
+              cursor: `${validToGo ? "pointer" : "no-drop"}`,
             }}
           >
             {isBangla ? "বিক্রি করুন" : "Sell Now"}
