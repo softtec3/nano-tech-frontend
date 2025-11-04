@@ -96,7 +96,7 @@ const AccountInfo = ({ setIsAccountShow, setIsShow }) => {
               />
               {isBangla ? "আমার প্রোফাইল" : "My Profile"}
             </Link>
-            <Link>
+            <Link to={"/account/manageProfile"}>
               <img
                 src="https://waltonplaza.com.bd/_next/image?url=%2Fcontact-details-64.png&w=48&q=75"
                 alt=""

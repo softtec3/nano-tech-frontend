@@ -3,9 +3,11 @@ import "./myProfile.css";
 import AccountInfoNavigation from "../../../components/AccountInfoNavigation/AccountInfoNavigation";
 import useUser from "../../../hooks/useUser";
 import { FaPenToSquare } from "react-icons/fa6";
+import { useNavigate } from "react-router";
 const MyProfile = () => {
   const { user } = useUser();
   const [profileInfo, setProfileInfo] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     try {
       fetch(
@@ -27,7 +29,6 @@ const MyProfile = () => {
       console.log(error.message);
     }
   }, [user]);
-  console.log(profileInfo);
   return (
     <div id="myProfile">
       <AccountInfoNavigation
@@ -37,7 +38,7 @@ const MyProfile = () => {
       {/* profile container */}
       <div className="orderTable profileContainer">
         <div className="profileEditButton">
-          <button>
+          <button onClick={() => navigate("/account/manageProfile")}>
             <FaPenToSquare />
             Edit
           </button>
@@ -51,37 +52,49 @@ const MyProfile = () => {
             <tbody>
               <tr>
                 <td>
-                  <b>Name:</b>
+                  <b>
+                    Name <span>:</span>
+                  </b>
                 </td>
                 <td>{profileInfo?.full_name}</td>
               </tr>
               <tr>
                 <td>
-                  <b>Mobile:</b>
+                  <b>
+                    Mobile<span>:</span>
+                  </b>
                 </td>
                 <td>{profileInfo?.mobile_number}</td>
               </tr>
               <tr>
                 <td>
-                  <b>Label:</b>
+                  <b>
+                    Label<span>:</span>
+                  </b>
                 </td>
                 <td>{profileInfo?.address_label}</td>
               </tr>
               <tr>
                 <td>
-                  <b>Area:</b>
+                  <b>
+                    Area<span>:</span>
+                  </b>
                 </td>
                 <td>{profileInfo?.area}</td>
               </tr>
               <tr>
                 <td>
-                  <b>Address:</b>
+                  <b>
+                    Address<span>:</span>
+                  </b>
                 </td>
                 <td>{profileInfo?.address}</td>
               </tr>
               <tr>
                 <td>
-                  <b>Landmark:</b>
+                  <b>
+                    Landmark<span>:</span>
+                  </b>
                 </td>
                 <td>{profileInfo?.landmark}</td>
               </tr>

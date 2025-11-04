@@ -87,8 +87,16 @@ section {
 input[type="checkbox"] {
   accent-color: var(---primaryColor);
 }
+.defaultSection {
+  width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
 /*Tablet (≤1200px)*/
 @media only screen and (max-width: 1200px) {
+  .defaultSection {
+    width: 100%;
+  }
   body {
     font-size: 0.95rem;
   } /* ~15px */
