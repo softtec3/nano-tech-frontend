@@ -15,13 +15,11 @@ const SalesPointCart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [dueAmount, setDueAmount] = useState(0);
-  console.log(cartItems);
   useEffect(() => {
     const total = cartItems.reduce(
       (sum, item) => sum + Number(item?.payableAmount),
       0
     );
-    console.log(total);
     setTotalPrice(total);
   }, [cartItems, changeState]);
   useEffect(() => {
@@ -34,18 +32,15 @@ const SalesPointCart = () => {
       const dis = item?.discountAmount ?? 0;
       return sum + dis;
     }, 0);
-    console.log("discount", total);
     setDiscountAmount(total);
   }, [cartItems, changeState]);
   useEffect(() => {
     const total = cartItems.reduce((sum, item) => sum + item?.dueAmount, 0);
-    console.log("discount", total);
     setDueAmount(total);
   }, [cartItems, changeState]);
   // check valid to go
   useEffect(() => {
     for (const item of cartItems) {
-      console.log(item);
       if (item?.selectedId && item?.paymentType) {
         setValidToGo(true);
       } else {

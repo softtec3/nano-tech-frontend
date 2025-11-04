@@ -34,7 +34,6 @@ const MyOrders = () => {
       console.log(error.message);
     }
   }, [user]);
-  console.log(orders);
   return (
     <div id="myOrders">
       <div className="accountInfoTopNav">
@@ -65,6 +64,11 @@ const MyOrders = () => {
               orders?.map((order) => (
                 <MyOrderRow key={order?.id} order={order} />
               ))}
+            {orders && orders?.length <= 0 && (
+              <tr>
+                <td colSpan={12}>No orders</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -17,7 +17,7 @@ const ProductDetailsMain = ({ product, productSpecification }) => {
   const { isBangla } = useLang();
   const { cartItems, setCartItems } = useCart();
   const [mobileView, setMobileView] = useState(false);
-  const [mainProImage, setMainProImage] = useState("");
+  const [mainProImage, setMainProImage] = useState(null);
   const navigate = useNavigate();
   const rawImages = [
     product?.product_main_img ?? null,

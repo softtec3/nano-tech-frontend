@@ -11,7 +11,7 @@ const ManageProfile = () => {
   const [profileInfo, setProfileInfo] = useState({});
   const imgRef = useRef(null);
   const navigate = useNavigate();
-  const [imageSrc, setImageSrc] = useState("");
+  const [imageSrc, setImageSrc] = useState(null);
   //   fetching user info
   useEffect(() => {
     try {
@@ -134,7 +134,13 @@ const ManageProfile = () => {
               <select
                 name="address_label"
                 required
-                defaultValue={profileInfo?.address_label}
+                value={profileInfo.address_label}
+                onChange={(e) =>
+                  setProfileInfo((prev) => ({
+                    ...prev,
+                    address_label: e.target.value,
+                  }))
+                }
               >
                 <option value="home">{isBangla ? "হোম" : "Home"}</option>
                 <option value="office">{isBangla ? "অফিস" : "Office"}</option>

@@ -36,7 +36,6 @@ const SalesOrders = () => {
       console.log(error.message);
     }
   }, [user]);
-  console.log(orders);
   return (
     <div id="myOrders">
       <div className="accountInfoTopNav">

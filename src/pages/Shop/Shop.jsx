@@ -83,7 +83,6 @@ const Shop = () => {
   const handleFilterByPrice = (e) => {
     const value = e.target.value;
     const store = [...allProducts];
-    console.log(value);
     // price high to low
     if (value === "price_hl") {
       const htl = store.sort((a, b) => b.current_price - a.current_price);

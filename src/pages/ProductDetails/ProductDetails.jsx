@@ -54,8 +54,6 @@ const ProductDetails = () => {
       console.log(error.message);
     }
   }, [id, lang]);
-  console.log(product);
-  console.log(productSpecification);
   const navigate_links = product?.product_sub_category
     ? [
         { label: "Home", href: "/" },

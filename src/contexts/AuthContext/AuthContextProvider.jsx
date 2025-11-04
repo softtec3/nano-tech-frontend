@@ -4,8 +4,6 @@ import { AuthContext } from "./AuthContext";
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(isLoading);
-  console.log(user);
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API}/user_authentication.php`, {
       credentials: "include",
@@ -13,7 +11,6 @@ const AuthContextProvider = ({ children }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data?.data?.user_name) {
-          console.log(data?.data);
           setUser(data?.data);
           setIsLoading(false);
         } else {

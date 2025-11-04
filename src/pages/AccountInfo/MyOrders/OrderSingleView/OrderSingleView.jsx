@@ -4,12 +4,11 @@ import { Link, useParams } from "react-router";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 import useUser from "../../../../hooks/useUser";
-import useLang from "../../../../hooks/useLang";
+import AccountInfoNavigation from "../../../../components/AccountInfoNavigation/AccountInfoNavigation";
 const OrderSingleView = () => {
   const { user } = useUser();
   const { orderId } = useParams();
   const [orderItems, setOrderItems] = useState([]);
-  const { isBangla } = useLang();
   //   fetching order items
   useEffect(() => {
     try {
@@ -35,19 +34,11 @@ const OrderSingleView = () => {
   }, [orderId, user]);
   return (
     <div id="myOrders">
-      <div className="accountInfoTopNav">
-        <div>
-          <Link to={-1} style={{ display: "flex", alignItems: "center" }}>
-            <FaArrowLeft size={25} style={{ cursor: "pointer" }} />
-          </Link>
-          {isBangla
-            ? `অর্ডারের বিবরণঃ #${orderId} `
-            : `Order Details of #${orderId}`}
-        </div>
-        <Link to={"/"}>
-          <FaHome size={25} />
-        </Link>
-      </div>
+      <AccountInfoNavigation
+        englishName={`Order Details of #${orderId}`}
+        banglaName={`অর্ডারের বিবরণঃ #${orderId} `}
+      />
+
       <div className="orderTable">
         <table>
           <thead>

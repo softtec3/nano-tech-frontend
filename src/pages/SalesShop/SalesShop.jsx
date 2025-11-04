@@ -35,7 +35,6 @@ const SalesShop = () => {
       console.log(error.message);
     }
   }, [lang, user]);
-  console.log(products);
   return (
     <section id="salesShop">
       <h3>Sales Point Shop</h3>

@@ -73,24 +73,27 @@ const Checkout = () => {
     });
   };
   const handleSubmit = () => {
-    console.log([
-      { customerInfo },
-      { guarantorInfo },
-      { totalPayableAmount },
-      { totalDueAmount },
-      { cartItems },
-    ]);
+    // console.log([
+    //   { customerInfo },
+    //   { guarantorInfo },
+    //   { totalPayableAmount },
+    //   { totalDueAmount },
+    //   { cartItems },
+    // ]);
   };
   // handle sales point order
   const handleSalesPointOrder = (e) => {
     handleSubmit();
     e.preventDefault();
     if (!isInstallment) {
-      for (const key in customerInfo) {
-        if (customerInfo[key] == "") {
-          toast.error(`${key} field is required`);
-          return;
-        }
+      if (customerInfo?.customerName == "") {
+        return toast.error("Customer name is required");
+      }
+      if (customerInfo?.customerMobile == "") {
+        return toast.error("Customer mobile is required");
+      }
+      if (customerInfo?.customerAddress == "") {
+        return toast.error("Customer address is required");
       }
     } else {
       for (const key in customerInfo) {
@@ -138,7 +141,6 @@ const Checkout = () => {
       formData.append("guarantor_photo", guarantorInfo.guarantorPhoto);
     }
 
-    console.log(formData);
     try {
       fetch(
         `${
@@ -154,7 +156,6 @@ const Checkout = () => {
         .then((data) => {
           if (data?.success) {
             toast.success(data?.message);
-            console.log(data?.data);
             setCartItems([]);
             setCustomerInfo({
               customerName: "",
