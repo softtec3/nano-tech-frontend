@@ -8,7 +8,7 @@ const AccountInfoNavigation = ({ banglaName, englishName }) => {
   return (
     <div className="accountInfoTopNav">
       <div>
-        <Link to={-1} style={{ display: "flex", alignItems: "center" }}>
+        <Link to={"/account"} style={{ display: "flex", alignItems: "center" }}>
           <FaArrowLeft size={25} style={{ cursor: "pointer" }} />
         </Link>
         {isBangla ? banglaName : englishName}
