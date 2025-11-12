@@ -19,6 +19,17 @@
 .accountInfoTopNav a:hover {
   color: var(---primaryColor);
 }
+.payNowBtn {
+  margin: 0 5px;
+  border: none;
+  padding: 3px 5px;
+  cursor: pointer;
+  background-color: var(---primaryColor);
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
 .accountInfoTopNav div {
   display: flex;
   align-items: center;

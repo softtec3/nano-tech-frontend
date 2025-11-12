@@ -122,10 +122,13 @@
 .paymentMethodsImages div:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
+.selectedMethod {
+  background-color: rgba(0, 0, 0, 0.2);
+}
 .paymentMethodsImages {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .paymentMethodsImages img {
   width: 50px;

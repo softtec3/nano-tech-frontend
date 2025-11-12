@@ -34,6 +34,7 @@ const MyOrders = () => {
       console.log(error.message);
     }
   }, [user]);
+  console.log(orders);
   return (
     <div id="myOrders">
       <div className="accountInfoTopNav">
@@ -54,6 +55,8 @@ const MyOrders = () => {
               <th>Order ID</th>
               <th>Date</th>
               <th>Order Status</th>
+              <th>Payment Method</th>
+              <th>Payment Status</th>
               <th>Total Amount</th>
               <th>Action</th>
             </tr>

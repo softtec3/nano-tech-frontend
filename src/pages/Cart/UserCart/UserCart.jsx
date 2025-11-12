@@ -9,10 +9,11 @@ import useUser from "../../../hooks/useUser";
 import { getFormData } from "../../../utils/getFormData";
 import { FaEdit } from "react-icons/fa";
 import CartItem from "./CartItem";
-import { useNavigate } from "react-router";
+import { handleBkashPayment } from "../../../utils/handleBkashPayment";
+// import { useNavigate } from "react-router";
 const UserCart = () => {
   const { user } = useUser();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // user info
   const [userInfo, setUserInfo] = useState({});
   const { cartItems, setCartItems } = useCart();
@@ -23,6 +24,7 @@ const UserCart = () => {
   const [subTotal, setSubTotal] = useState(0);
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [payable, setPayable] = useState(0);
+  const [paymentType, setPaymentType] = useState("");
   // const [pickupType, setPickupType] = useState("home_delivery");
   const deleteCartItem = (id) => {
     setCartItems(cartItems.filter((item) => item.product_id !== id));
@@ -121,6 +123,12 @@ const UserCart = () => {
       toast.error(isBangla ? "ঠিকানা পূরণ করুন" : "Please fill out address");
       return;
     }
+    if (paymentType == "") {
+      toast.error(
+        isBangla ? "পেমেন্ট মেথড নির্বাচন করুন" : "Please select payment method"
+      );
+      return;
+    }
     if (termsAccept === false) {
       toast.error(
         isBangla
@@ -129,11 +137,12 @@ const UserCart = () => {
       );
       return;
     }
+
     const finalObject = {
       user_id: user?.user_id,
       user_name: user?.user_name,
       full_name: userInfo?.full_name,
-      payment_method: "COD",
+      payment_method: paymentType,
       cart: cartItems,
     };
     try {
@@ -147,9 +156,15 @@ const UserCart = () => {
         .then((data) => {
           if (data?.success) {
             toast.success(data?.message);
+            console.log(data?.data);
+            const orderId = data?.data?.insert_id;
+            const totalAmount = data?.data?.total_amount;
+            if (paymentType === "bkash") {
+              handleBkashPayment(orderId, totalAmount, user.user_id);
+            }
             setCartItems([]);
             // navigate to order page while successfully placed an order
-            navigate("/");
+            // navigate("/");
           } else {
             toast.error(
               isBangla ? "কিছু সমস্যা হয়েছে" : "Something went wrong"
@@ -163,6 +178,8 @@ const UserCart = () => {
     }
     // console.log(finalObject);
   };
+  // handle Bkash payment
+
   // Count total
   const handleCalculation = useCallback(() => {
     const sub_total = cartItems.reduce((a, b) => {
@@ -374,19 +391,27 @@ const UserCart = () => {
                 : "Select a payment method"}
             </h6>
           </div>
+          <div></div>
           <div className="paymentMethodsImages">
-            <div>
+            <div
+              onClick={() => setPaymentType("COD")}
+              className={`${paymentType === "COD" ? "selectedMethod" : ""}`}
+            >
+              <img src="/cod.png" alt="" />
+            </div>
+            <div
+              onClick={() => setPaymentType("bkash")}
+              className={`${paymentType === "bkash" ? "selectedMethod" : ""}`}
+            >
               <img src="/bkash.png" alt="" />
             </div>
-            <div>
-              <img src="/nagad.png" alt="" />
-            </div>
-            <div>
+
+            {/* <div>
               <img src="/visa.png" alt="" />
             </div>
             <div>
               <img src="/mastercard.png" alt="" />
-            </div>
+            </div> */}
           </div>
         </div>
         {/* pickup type */}
