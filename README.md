@@ -97,6 +97,7 @@ The app follows a reasonably organized layout. Key folders:
   - `router/` - Routing setup (`router.jsx` sets `RouterProvider` routes)
   - `utils/` - Utilities (e.g., `getFormData.jsx`, `handleBkashPayment.jsx`)
 
+```bash
 └── src
 ├── components
 │ ├── AccordionMui
@@ -293,6 +294,7 @@ The app follows a reasonably organized layout. Key folders:
 └── utils
 ├── getFormData.jsx
 └── handleBkashPayment.jsx
+```
 
 **Contexts & Hooks**
 
