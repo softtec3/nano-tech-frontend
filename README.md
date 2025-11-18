@@ -54,7 +54,7 @@ Prerequisites:
 Install dependencies:
 
 ```powershell
-cd "c:\Users\Soft-Tech Technology\Desktop\SoftTech All Projects\NanoTechFinal\nanotech-new"
+cd "nanotech-new"
 npm install
 ```
 
@@ -96,6 +96,203 @@ The app follows a reasonably organized layout. Key folders:
   - `pages/` - Page components (Home, Shop, ProductDetails, Cart, AccountInfo, Checkout, Login, SignUp, etc.)
   - `router/` - Routing setup (`router.jsx` sets `RouterProvider` routes)
   - `utils/` - Utilities (e.g., `getFormData.jsx`, `handleBkashPayment.jsx`)
+
+└── src
+├── components
+│ ├── AccordionMui
+│ │ ├── AccordionMui.css
+│ │ └── AccordionMui.jsx
+│ ├── AccountInfoNavigation
+│ │ └── AccountInfoNavigation.jsx
+│ ├── Categories
+│ │ ├── Categories.css
+│ │ └── Categories.jsx
+│ ├── Container
+│ │ ├── Container.css
+│ │ └── Container.jsx
+│ ├── Footer
+│ │ ├── Footer.css
+│ │ └── Footer.jsx
+│ ├── Loader
+│ │ ├── loader.css
+│ │ └── Loader.jsx
+│ ├── LoadingSpinner
+│ │ ├── loadingSpinner.css
+│ │ └── LoadingSpinner.jsx
+│ ├── Logo
+│ │ ├── Logo.css
+│ │ └── Logo.jsx
+│ ├── MainNavbar
+│ │ ├── MainNavbar.css
+│ │ └── MainNavbar.jsx
+│ ├── MobileCategories
+│ │ ├── MobileCategories.css
+│ │ └── MobileCategories.jsx
+│ ├── MobileNavbar
+│ │ ├── MobileNavbar.css
+│ │ └── MobileNavbar.jsx
+│ ├── Modal
+│ │ ├── Modal.css
+│ │ └── Modal.jsx
+│ ├── Navigation
+│ │ ├── Navigation.css
+│ │ └── Navigation.jsx
+│ ├── ProductCard
+│ │ ├── ProductCard.css
+│ │ └── ProductCard.jsx
+│ ├── ProductImageZoom
+│ │ └── ProductImageZoom.jsx
+│ ├── ScrollToTop
+│ │ └── ScrollToTop.jsx
+│ ├── SectionTitle
+│ │ └── SectionTitle.jsx
+│ ├── SmallProductCard
+│ │ ├── SmallProductCard.css
+│ │ └── SmallProductCard.jsx
+│ └── TopNavbar
+│ ├── TopNavbar.css
+│ └── TopNavbar.jsx
+├── contexts
+│ ├── AuthContext
+│ │ ├── AuthContext.jsx
+│ │ └── AuthContextProvider.jsx
+│ ├── CartContext
+│ │ ├── CartContext.jsx
+│ │ └── CartContextProvider.jsx
+│ ├── LangContext
+│ │ ├── LangContext.jsx
+│ │ └── LangContextProvider.jsx
+│ └── LoaderContext
+│ ├── LoaderContext.jsx
+│ └── LoaderContextProvider.jsx
+├── hooks
+│ ├── useCart.jsx
+│ ├── useLang.jsx
+│ ├── useLoader.jsx
+│ └── useUser.jsx
+├── index.css
+├── layouts
+│ └── RootLayout
+│ ├── RootLayout.css
+│ └── RootLayout.jsx
+├── main.jsx
+├── pages
+│ ├── AccountInfo
+│ │ ├── AccountInfo.css
+│ │ ├── AccountInfo.jsx
+│ │ ├── ManageProfile
+│ │ │ ├── manageProfile.css
+│ │ │ └── ManageProfile.jsx
+│ │ ├── MyOrders
+│ │ │ ├── MyOrderRow.jsx
+│ │ │ ├── myOrders.css
+│ │ │ ├── MyOrders.jsx
+│ │ │ └── OrderSingleView
+│ │ │ └── OrderSingleView.jsx
+│ │ ├── MyProducts
+│ │ │ ├── MyProductRow.jsx
+│ │ │ ├── myProducts.css
+│ │ │ └── MyProducts.jsx
+│ │ ├── MyProfile
+│ │ │ ├── myProfile.css
+│ │ │ └── MyProfile.jsx
+│ │ └── SalesOrder
+│ │ ├── myOrders.css
+│ │ ├── SalesOrderRow.jsx
+│ │ ├── SalesOrders.jsx
+│ │ └── SalesOrderSingleView
+│ │ └── SalesOrderSingleView.jsx
+│ ├── Cart
+│ │ ├── Cart.css
+│ │ ├── Cart.jsx
+│ │ ├── SalesPointCart
+│ │ │ ├── SalesPointCart.css
+│ │ │ ├── SalesPointCart.jsx
+│ │ │ └── SingleCartItem.jsx
+│ │ └── UserCart
+│ │ ├── CartItem.jsx
+│ │ ├── UserCart.css
+│ │ └── UserCart.jsx
+│ ├── Checkout
+│ │ ├── checkout.css
+│ │ └── Checkout.jsx
+│ ├── ForgetPassword
+│ │ ├── ForgetPassword.css
+│ │ └── ForgetPassword.jsx
+│ ├── Home
+│ │ ├── Banner
+│ │ │ ├── Banner.css
+│ │ │ └── Banner.jsx
+│ │ ├── Home.css
+│ │ ├── Home.jsx
+│ │ ├── HomeCategory
+│ │ │ ├── HomeCategory.css
+│ │ │ └── HomeCategory.jsx
+│ │ ├── MiniBlog
+│ │ │ ├── MiniBlog.css
+│ │ │ └── MiniBlog.jsx
+│ │ ├── ProductSectionThree
+│ │ │ └── ProductSectionThree.jsx
+│ │ ├── ProductSectionTwo
+│ │ │ └── ProductSectionTwo.jsx
+│ │ ├── ProductsSectionOne
+│ │ │ ├── ProductsSectionOne.css
+│ │ │ └── ProductsSectionOne.jsx
+│ │ ├── PromotionBanner
+│ │ │ ├── PromotionBanner.css
+│ │ │ └── PromotionBanner.jsx
+│ │ ├── PromotionBannerThree
+│ │ │ ├── PromotionBannerThree.css
+│ │ │ └── PromotionBannerThree.jsx
+│ │ ├── PromotionBannerTwo
+│ │ │ ├── PromotionBannerTwo.css
+│ │ │ └── PromotionBannerTwo.jsx
+│ │ ├── Trending
+│ │ │ ├── Trending.css
+│ │ │ └── Trending.jsx
+│ │ └── WhyChooseUs
+│ │ ├── WhyChooseUs.css
+│ │ └── WhyChooseUs.jsx
+│ ├── Login
+│ │ ├── Login.css
+│ │ └── Login.jsx
+│ ├── ProductDetails
+│ │ ├── ProductDetails.css
+│ │ ├── ProductDetails.jsx
+│ │ ├── ProductDetailsMain
+│ │ │ ├── ProductDetailsMain.css
+│ │ │ ├── ProductDetailsMain.jsx
+│ │ │ └── ProductImagesSlider
+│ │ │ └── ProductImagesSlider.jsx
+│ │ ├── ProductInDetail
+│ │ │ ├── ProductInDetail.css
+│ │ │ └── ProductInDetail.jsx
+│ │ └── ProductQuestion
+│ │ ├── ProductQuestion.css
+│ │ └── ProductQuestion.jsx
+│ ├── SalesShop
+│ │ ├── salesShop.css
+│ │ └── SalesShop.jsx
+│ ├── Shop
+│ │ ├── FilterCheckbox
+│ │ │ ├── FilterCheckbox.css
+│ │ │ └── FilterCheckbox.jsx
+│ │ ├── PriceRange
+│ │ │ ├── PriceRange.css
+│ │ │ └── PriceRange.jsx
+│ │ ├── Shop.css
+│ │ └── Shop.jsx
+│ └── SignUp
+│ ├── SignUp.css
+│ └── SignUp.jsx
+├── router
+│ └── router.jsx
+├── routes
+│ ├── PrivateRoute.jsx
+│ └── PrivateSalesPointRoute.jsx
+└── utils
+├── getFormData.jsx
+└── handleBkashPayment.jsx
 
 **Contexts & Hooks**
 
